@@ -6,12 +6,14 @@ import {
   FullLayoutComponent,
   SimpleLayoutComponent
 } from './containers';
+import { AuthGuard } from 'app/accounts/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -22,6 +24,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate: [AuthGuard],
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
@@ -58,7 +61,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

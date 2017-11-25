@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from "@angular/forms";
 
 import { AccountService } from "../services/account.service";
-import { MessageService } from "../services/message.service";
 
 import { LoginComponent } from './login.component';
+import { AccountRoutingModule } from 'app/accounts/account-routing.module';
+import { MessageService } from 'app/services/message.service';
+import { MessageComponent } from 'app/services/message.component';
 
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    AccountRoutingModule
   ],
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, MessageComponent],
   exports: [LoginComponent],
   providers: [AccountService, MessageService]
 })

@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MessageService {
-  messages: string[] = [];
+  message: string;
+  success: boolean;
 
-  add(message: string) {
-    this.messages.push(message);
+  add(message: string, success: boolean) {
+    this.message = message;
+    this.success = success;
   }
 
   clear() {
-    this.messages = [];
+    this.message = undefined;
+    this.success = undefined;
   }
 }

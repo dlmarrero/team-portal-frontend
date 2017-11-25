@@ -28,6 +28,13 @@
     &:hover .navbar-toggler-icon {
       background-image: $navbar-toggler-icon-hover;
     }
+
+    &:active, &:focus {
+      outline: 0;
+      border: none;
+    }
+
+
   }
 
   .navbar-toggler-icon {
