@@ -23,11 +23,5 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.accountService.login(this.loginData);
-    // .then(function (response) {
-    //   // $state.transitionTo('app.main', {}, { reload: true });
-    // },
-    // function (error_description) {
-    //   // $rootScope.$broadcast('messageUpdate', error_description.data.error_description);
-    // });
   };
 }
