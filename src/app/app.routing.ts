@@ -6,7 +6,7 @@ import {
   FullLayoutComponent,
   SimpleLayoutComponent
 } from './containers';
-import { AuthGuard } from 'app/accounts/auth.guard';
+import { AuthGuard } from 'app/guards/auth.guard';
 
 export const routes: Routes = [
   {
