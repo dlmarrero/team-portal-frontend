@@ -94,16 +94,13 @@ export class AccountService {
 
 
   /** POST:  register a new user */
-  // Create a registration model to use here
-  register(registration): Observable<any> {
-
-    if (!registration) { return; }
-
-    return this.http.post(this.apiUrl + '/api/account/register', registration, httpOptions)
-      .pipe(
-      tap(_ => this.log('Registration successful!  Logging you in...', true)),
-      catchError(this.handleError<any>('saveRegistration'))
-      );
+  register(registration) {
+    return this.http.post(this.apiUrl + '/api/account/register', registration)
+      .subscribe(data => {
+        this.log('Regisration successful!  Logging you in...', true)
+      }, err => {
+        this.log(err.error.error_description, false)
+      })
   };
 
   ///////////// HELPER FUNCTIONS ////////////////
