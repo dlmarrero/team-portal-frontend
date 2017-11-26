@@ -1,245 +1,191 @@
-<div class="form-container">
-  <div class="card" style="width: 100%;margin: 0 auto;">
-    <div class="card-block">
-      <form name="register" class="form-login" (ngSubmit)="signUp()" #register="ngForm">
-        <div style="text-align:center;">
-          <h4 class="form-login-heading">
-            <strong>N57 Portal
-              <br>New Sailor Registration</strong>
-          </h4>
-          <hr>
-          <br>
-        </div>
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card" style="width: 100%;margin: 0 auto;">
+          <div class="card-block">
+            <div style="text-align:center;">
+              <h4 class="form-login-heading">
+                <strong>N57 Portal
+                  <br>New Sailor Registration
+                </strong>
+              </h4>
+              <hr>
+              <br>
+            </div>
 
+            <mat-horizontal-stepper [linear]="false" style="text-align:center;height:400px">
+              <!-- TODO:  Use better form validation -->
+              <mat-step [stepControl]="accountFormGroup">
+                <form [formGroup]="accountFormGroup">
+                  <ng-template matStepLabel>Account Information</ng-template>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput placeholder="Rate" formControlName="accountData" id="rate" name="rate" [(ngModel)]="registration.rate" required>
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <mat-select placeholder="Rank" id="rank" name="rank" formControlName="accountData" [(ngModel)]="registration.rank" required>
+                          <mat-option *ngFor="let rank of ranks" [value]="rank">{{rank}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="First Name" formControlName="accountData" id="firstname" name="firstname" [(ngModel)]="registration.firstName"
+                          required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="Last Name" formControlName="accountData" id="lastname" name="lastname" [(ngModel)]="registration.lastName"
+                          required>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput placeholder="Official E-mail" formControlName="accountData" type="email" id="email" name="email" [(ngModel)]="registration.email"
+                          required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="Password" formControlName="accountData" type="password" id="password" name="password" [(ngModel)]="registration.password"
+                          required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="Confirm Password" formControlName="accountData" type="password" id="confirm" name="confirm"
+                          [(ngModel)]="registration.confirmPassword" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div>
+                    <button mat-button matStepperNext color="primary">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+              <!-- TODO: Form validation bugs out -->
+              <mat-step [stepControl]="recallFormGroup">
+                <form [formGroup]="recallFormGroup">
+                  <ng-template matStepLabel>Recall Information</ng-template>
+                  <mat-form-field>
+                    <input matInput placeholder="Street Address" formControlName="recallData" id="street" name="street" [(ngModel)]="registration.street"
+                      required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="City" formControlName="recallData" id="city" name="city" [(ngModel)]="registration.city" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-select placeholder="State" id="state" name="state" formControlName="recallData" [(ngModel)]="registration.state" required>
+                      <mat-option *ngFor="let state of states" [value]="state.value">{{state.viewValue}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="Zip Code" formControlName="recallData" id="zip" name="zip" [(ngModel)]="registration.zip" maxlength="5"
+                      required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput placeholder="Phone" formControlName="recallData" type="tel" id="phone" name="phone" [(ngModel)]="registration.phoneNumber"
+                      minlength="10" required>
+                  </mat-form-field>
+                  <div>
+                    <button mat-button matStepperPrevious color="secondary">Back</button>
+                    <button mat-button matStepperNext color="primary">Next</button>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="adminFormGroup">
+                <form [formGroup]="adminFormGroup">
+                  <ng-template matStepLabel>Administrative Information</ng-template>
+                  <!-- TODO:  Do something better with this -->
+                  <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjJtMPovtLVAhUB5oMKHW3JCKUQFggoMAA&url=https%3A%2F%2Fnsipsprod.nmci.navy.mil%2F&usg=AFQjCNFFz-TG1lUzoxm6pCzRuqTWX2pVxA"
+                    target="_blank">
+                    <i class="fa fa-question-circle fa-1x" style="color: #20a8d8" data-toggle="tooltip" title="Navigate to NSIPS > Employee Self Service > Electronic Service Record > Member Data Summary to find this information."></i>
+                  </a>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="adsd" formControlName="adminData" placeholder="ADSD" id="adsd" name="adsd" [(ngModel)]="registration.adsd"
+                          required>
+                        <mat-datepicker-toggle matSuffix [for]="adsd"></mat-datepicker-toggle>
+                        <mat-datepicker #adsd></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="heaos" formControlName="adminData" placeholder="Hard EAOS" id="heaos" name="heaos" [(ngModel)]="registration.heaos"
+                          required>
+                        <mat-datepicker-toggle matSuffix [for]="heaos"></mat-datepicker-toggle>
+                        <mat-datepicker #heaos></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="seaos" formControlName="adminData" placeholder="Soft EAOS" id="seaos" name="seaos" [(ngModel)]="registration.seaos"
+                          required>
+                        <mat-datepicker-toggle matSuffix [for]="seaos"></mat-datepicker-toggle>
+                        <mat-datepicker #seaos></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="prd" formControlName="adminData" placeholder="PRD" id="prd" name="prd" [(ngModel)]="registration.prd"
+                          required>
+                        <mat-datepicker-toggle matSuffix [for]="prd"></mat-datepicker-toggle>
+                        <mat-datepicker #prd></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="reportDate" formControlName="adminData" placeholder="Report Date" id="reportDate" name="reportDate"
+                          [(ngModel)]="registration.reportDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="reportDate"></mat-datepicker-toggle>
+                        <mat-datepicker #reportDate></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="tirDate" formControlName="adminData" placeholder="TIR Date" id="tirDate" name="tirDate"
+                          [(ngModel)]="registration.tirDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="tirDate"></mat-datepicker-toggle>
+                        <mat-datepicker #tirDate></mat-datepicker>
+                        <mat-hint>ddMMMyy</mat-hint>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="Destination UIC" formControlName="adminData" id="destUIC" name="destUIC" [(ngModel)]="registration.destUIC"
+                          required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="Destination Command" formControlName="adminData" id="destCommand" name="destCommand" [(ngModel)]="registration.destCommand"
+                          required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <mat-checkbox [(ngModel)]="registration.blueBadge" formControlName="adminData">Blue Badge</mat-checkbox>
+                  <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <!-- TODO:  Make sure this works -->
+                    <button mat-button color="primary" (click)="signUp()">Submit</button>
+                  </div>
+                </form>
+              </mat-step>
+            </mat-horizontal-stepper>
 
-        <!-- <mat-horizontal-stepper [linear]="isLinear">
-          <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
-              <ng-template matStepLabel>Fill out your name</ng-template>
-              <mat-form-field>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-              </mat-form-field>
-              <div>
-                <button mat-button matStepperNext>Next</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
-              <ng-template matStepLabel>Fill out your address</ng-template>
-              <mat-form-field>
-                <input matInput placeholder="Address" formControlName="secondCtrl" required>
-              </mat-form-field>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            You are now done.
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-            </div>
-          </mat-step>
-        </mat-horizontal-stepper> -->
+            <!-- TODO:  reimplement this password checker -->
+            <!-- <em ng-show="showPwRules">
+            <label ng-class="hasUpper ? 'validated' : 'invalidated'">1+ uppercase, </label>
+            <label ng-class="hasLower ? 'validated' : 'invalidated'">1+ lowercase, </label>
+            <label ng-class="hasDigit ? 'validated' : 'invalidated'">1+ digit, </label>
+            <label ng-class="hasSpecial ? 'validated' : 'invalidated'">1+ special character</label>
+            <label ng-class="hasSix ? 'validated' : 'invalidated'">6+ characters, </label>
+          </em> -->
 
-
-
-        <div class="row">
-          <div class="col-lg-4">
-            <h5>Personal Data</h5>
-            <hr>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="rate">Rate</label>
-              <div class="col-md-12">
-                <input type="text" id="rate" name="rate" [(ngModel)]="registration.rate" class="form-control" ng-class="{'form-invalid': !validRate && validRate != null}"
-                  ng-value="registration.rate" ng-blur="validateRate(registration.rate);">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="rank">Rank</label>
-              <div class="col-md-12">
-                <select id="rank" name="rank" [(ngModel)]="registration.rank" class="form-control">
-                  <option value="{{registration.rank}}">{{registration.rank}}</option>
-                  <option value="E1">E1</option>
-                  <option value="E2">E2</option>
-                  <option value="E3">E3</option>
-                  <option value="E4">E4</option>
-                  <option value="E5">E5</option>
-                  <option value="E6">E6</option>
-                  <option value="E7">E7</option>
-                  <option value="E9">E8</option>
-                  <option value="E9">E9</option>
-                  <option value="O1">O1</option>
-                  <option value="O2">O2</option>
-                  <option value="O3">O3</option>
-                  <option value="O4">O4</option>
-                  <option value="O5">O5</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="firstname">First Name</label>
-              <div class="col-md-12">
-                <input type="text" id="firstname" name="firstname" [(ngModel)]="registration.firstName" class="form-control" ng-class="{'form-invalid': !validFName && validFName != null}"
-                  ng-blur="validateFName(registration.firstName)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="lastname">Last Name</label>
-              <div class="col-md-12">
-                <input type="text" id="lastname" name="lastname" [(ngModel)]="registration.lastName" class="form-control" ng-class="{'form-invalid': !validLName && validLName != null}"
-                  ng-blur="validateLName(registration.lastName)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="email">Official Email</label>
-              <div class="col-md-12">
-                <input type="email" id="email" name="email" [(ngModel)]="registration.email" class="form-control" ng-class="{'form-invalid': !validEmail && validEmail != null}"
-                  ng-blur="validateEmail(registration.email)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="password">Password</label>
-              <div class="col-md-12">
-                <input type="password" id="password" name="password" [(ngModel)]="registration.password" class="form-control" placeholder="Password"
-                  ng-change="passwordStrength(registration.password)" ng-focus="showPwRules=true" ng-blur="validatePassword(registration.password)"
-                  ng-class="{'form-invalid': !validPassword && validPassword != null}">
-                <em ng-show="showPwRules">
-                  <label ng-class="hasUpper ? 'validated' : 'invalidated'">1+ uppercase, </label>
-                  <label ng-class="hasLower ? 'validated' : 'invalidated'">1+ lowercase, </label>
-                  <label ng-class="hasDigit ? 'validated' : 'invalidated'">1+ digit, </label>
-                  <label ng-class="hasSpecial ? 'validated' : 'invalidated'">1+ special character</label>
-                  <label ng-class="hasSix ? 'validated' : 'invalidated'">6+ characters, </label>
-                </em>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="confirm">Confirm Password</label>
-              <div class="col-md-12">
-                <input type="password" id="confirm" name="confirm" [(ngModel)]="registration.confirmPassword" class="form-control" ng-class="{'form-invalid': !validPassConf && validPassConf != null}"
-                  ng-blur="validatePassConf(registration.password, registration.confirmPassword)">
-                <br>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <h5>Recall Data</h5>
-            <hr>
-            <div class="form-group">
-              <label class="form-control-label" for="street">Street Address</label>
-              <input type="text" id="street" name="street" [(ngModel)]="registration.street" class="form-control" ng-class="{'form-invalid': !validStreet && validStreet != null}"
-                ng-blur="validateStreet(registration.street)">
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="city">City</label>
-              <input type="text" id="city" name="city" [(ngModel)]="registration.city" class="form-control" ng-class="{'form-invalid': !validCity && validCity != null}"
-                ng-blur="validateCity(registration.city)">
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="state">State</label>
-              <select id="state" name="state" [(ngModel)]="registration.state" class="form-control">
-                <option value="MD">Maryland</option>
-                <option value="DC">District Of Columbia</option>
-                <option value="VA">Virginia</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="zip">Zip Code</label>
-              <input type="text" id="zip" name="zip" [(ngModel)]="registration.zip" class="form-control" maxlength="5" ng-class="{'form-invalid': !validZip && validZip != null}"
-                ng-blur="validateZip(registration.zip)">
-            </div>
-            <div class="form-group">
-              <label class="form-control-label" for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" [(ngModel)]="registration.phoneNumber" class="form-control" minlength="10" ng-class="{'form-invalid': !validPhone && validPhone != null}"
-                ng-blur="validatePhone(registration.phoneNumber)">
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="row">
-              <h5>Administrative Data&nbsp;</h5>
-              <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjJtMPovtLVAhUB5oMKHW3JCKUQFggoMAA&url=https%3A%2F%2Fnsipsprod.nmci.navy.mil%2F&usg=AFQjCNFFz-TG1lUzoxm6pCzRuqTWX2pVxA"
-                target="_blank">
-                <i class="fa fa-question-circle fa-1x" style="color: #20a8d8" data-toggle="tooltip" title="Navigate to NSIPS > Employee Self Service > Electronic Service Record > Member Data Summary to find this information."></i>
-              </a>
-            </div>
-            <hr>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="adsd">ADSD</label>
-              <div class="col-md-12">
-                <input type="date" id="adsd" name="adsd" [(ngModel)]="registration.adsd" class="form-control" ng-class="{'form-invalid': !validAdsd && validAdsd != null}"
-                  ng-blur="validateAdsd(registration.adsd)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="heaos">Hard EAOS</label>
-              <div class="col-md-12">
-                <input type="date" id="heaos" name="heaos" [(ngModel)]="registration.heaos" class="form-control" ng-class="{'form-invalid': !validHeaos && validHeaos != null}"
-                  ng-blur="validateHeaos(registration.heaos)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="seaos">Soft EAOS</label>
-              <div class="col-md-12">
-                <input type="date" id="seaos" name="seaos" [(ngModel)]="registration.seaos" class="form-control" ng-class="{'form-invalid': !validSeaos && validSeaos != null}"
-                  ng-blur="validateSeaos(registration.seaos)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="prd">PRD</label>
-              <div class="col-md-12">
-                <input type="date" id="prd" name="prd" [(ngModel)]="registration.prd" class="form-control" ng-class="{'form-invalid': !validPrd && validPrd != null}"
-                  ng-blur="validatePrd(registration.prd)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="reportdate">Report Date</label>
-              <div class="col-md-12">
-                <input type="date" id="reportdate" name="reportdate" [(ngModel)]="registration.reportDate" class="form-control" ng-class="{'form-invalid': !validReportDate && validReportDate != null}"
-                  ng-blur="validateReportDate(registration.reportDate)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="tirdate">TIR Date</label>
-              <div class="col-md-12">
-                <input type="date" id="tirDate" name="tirdate" [(ngModel)]="registration.tirDate" class="form-control" ng-class="{'form-invalid': !validTir && validTir != null}"
-                  ng-blur="validateTir(registration.tirDate)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="destuic">Destination UIC</label>
-              <div class="col-md-12">
-                <input type="text" id="destuic" name="destuic" [(ngModel)]="registration.destUIC" minlength="5" maxlength="5" class="form-control"
-                  ng-class="{'form-invalid': !validUic && validUic != null}" ng-blur="validateUic(registration.destUIC)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="destcommand">Destination Command</label>
-              <div class="col-md-12">
-                <input type="text" id="destcommand" name="destcommand" [(ngModel)]="registration.destCommand" class="form-control" ng-class="{'form-invalid': !validDest && validDest != null}"
-                  ng-change="validateDest(registration.destCommand)">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-12 form-control-label" for="bluebadge">
-                Blue Badge&nbsp;&nbsp;
-                <input type="checkbox" id="bluebadge" name="bluebadge" [(ngModel)]="registration.blueBadge" ng-init="bluebadge=false" value="bluebadge">
-              </label>
+            <div class="button-group" style="text-align:center;">
+              <!-- TODO: test this -->
+              <app-messages></app-messages>
+              <!-- TODO: convert from js... animate or do something cooler -->
+              <em ng-show="validForm">
+                <span class="highlight" style="font-size: 16px">Your username is: {{registration.firstName | lowercase}}.{{registration.lastName | lowercase}}</span>
+              </em>
+              <br>
+              <button type="submit" [ngClass]="!validForm ? 'btn btn-lg btn-secondary btn-block': 'btn btn-lg btn-primary btn-block'">Submit</button>
+              <button class="btn btn-lg btn-danger btn-block" type="reset">Reset</button>
             </div>
           </div>
         </div>
-        <div class="button-group" style="text-align:center;">
-          <app-messages></app-messages>
-          <em ng-show="validForm">
-            <span class="highlight" style="font-size: 16px">Your username is: {{registration.firstName | lowercase}}.{{registration.lastName | lowercase}}</span>
-          </em>
-          <br>
-          <button type="submit" [ngClass]="!validForm ? 'btn btn-lg btn-secondary btn-block': 'btn btn-lg btn-primary btn-block'">Submit</button>
-          <button class="btn btn-lg btn-danger btn-block" type="reset">Reset</button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

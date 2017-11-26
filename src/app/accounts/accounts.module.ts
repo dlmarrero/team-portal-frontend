@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AccountRoutingModule } from 'app/accounts/account-routing.module';
 import { MaterialModule } from "app/material/material.module";
 
@@ -16,6 +16,7 @@ import { RegisterComponent } from 'app/accounts/register/register.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     AccountRoutingModule
   ],
