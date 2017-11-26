@@ -12,13 +12,16 @@
     <!-- Breadcrumb Menu-->
   </ol>
   <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item d-md-down-none">
+    <li *ngIf="user.data.rateName" class="nav-item d-md-down-none">
       <a class="nav-link" href="#">
         <i class="icon-bell"></i>
         <span class="badge badge-pill badge-danger">5</span>
       </a>
     </li>
-    <li class="nav-item dropdown" dropdown placement="bottom right">
+    <div *ngIf="!user.data.rateName" style="width:60px;text-align:center">
+      <i class="fa fa-circle-o-notch fa-spin"></i>
+    </div>
+    <li *ngIf="user.data.rateName" class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle
         (click)="false">
         <i class="fa fa-terminal"></i>
