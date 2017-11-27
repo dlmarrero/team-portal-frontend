@@ -1,4 +1,4 @@
-export interface UserData {
+export interface RegistrationData {
     password: string;
     confirmPassword: string;
     rate: string;
@@ -15,7 +15,7 @@ export interface UserData {
     phoneNumber: string;
 
     // TEAM DATA
-    team: string;
+    // team?: string;
 
     // ADMINISTRATIVE DATA
     adsd: string;
@@ -24,11 +24,11 @@ export interface UserData {
     prd: string;
     reportDate: string;
     tirDate: string;
-    blueBadge: string;
+    blueBadge: boolean;
     destUIC: string;
     destCommand: string;
 
-    updated: string;
+    // updated?: string;
 
-    roleName: string;
+    // roleName?: string;
 }

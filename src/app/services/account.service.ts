@@ -10,7 +10,6 @@ import { AuthData } from '../models/login-data.model';
 import { environment } from 'environments/environment';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { Router } from '@angular/router';
-import { UserData } from 'app/models';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -32,8 +31,6 @@ export class AccountService {
     isAuth: false,
     userName: undefined
   };
-
-  public userData = {};
 
   getAuthData(): Observable<any> {
     if (this.authData.userName === undefined) {
@@ -94,17 +91,18 @@ export class AccountService {
 
 
   /** POST:  register a new user */
-  register(registration) {
-    return this.http.post(this.apiUrl + '/api/account/register', registration)
-      .subscribe(data => {
-        this.log('Regisration successful!  Logging you in...', true)
-      }, err => {
-        this.log(err.error.error_description, false)
-      })
+  register(registration): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/account/register', registration);
+    // .subscribe(data => {
+    //   this.log('Regisration successful!  Logging you in...', true)
+    // }, err => {
+    //   this.log(err.error.error_description, false)
+    // })
   };
 
   ///////////// HELPER FUNCTIONS ////////////////
 
+  // TODO:  nuke this... not being used.
   private errorHandler(err) {
     if (err.error instanceof Error) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -116,6 +114,7 @@ export class AccountService {
     }
   }
 
+  // TODO:  nuke this... not being used.
   /**
   * Handle Http operation that failed.
   * Let the app continue.

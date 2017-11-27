@@ -14,156 +14,152 @@
               <br>
             </div>
 
-            <mat-horizontal-stepper [linear]="false" style="text-align:center;height:400px">
+            <mat-horizontal-stepper [linear]="false" style="text-align:center;">
               <!-- TODO:  Use better form validation -->
+              <!-- ACCOUNT FORM GROUP -->
               <mat-step [stepControl]="accountFormGroup">
-                <form [formGroup]="accountFormGroup">
+                <form [formGroup]="accountFormGroup" novalidate>
+                  <!-- TODO:  turn labels green when form is valid -->
                   <ng-template matStepLabel>Account Information</ng-template>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <mat-form-field>
-                        <input matInput placeholder="Rate" formControlName="accountData" id="rate" name="rate" [(ngModel)]="registration.rate" required>
-                      </mat-form-field>
-                      <br>
-                      <mat-form-field>
-                        <mat-select placeholder="Rank" id="rank" name="rank" formControlName="accountData" [(ngModel)]="registration.rank" required>
-                          <mat-option *ngFor="let rank of ranks" [value]="rank">{{rank}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="First Name" formControlName="accountData" id="firstname" name="firstname" [(ngModel)]="registration.firstName"
-                          required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="Last Name" formControlName="accountData" id="lastname" name="lastname" [(ngModel)]="registration.lastName"
-                          required>
-                      </mat-form-field>
-                    </div>
-                    <div class="col-lg-6">
-                      <mat-form-field>
-                        <input matInput placeholder="Official E-mail" formControlName="accountData" type="email" id="email" name="email" [(ngModel)]="registration.email"
-                          required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="Password" formControlName="accountData" type="password" id="password" name="password" [(ngModel)]="registration.password"
-                          required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="Confirm Password" formControlName="accountData" type="password" id="confirm" name="confirm"
-                          [(ngModel)]="registration.confirmPassword" required>
-                      </mat-form-field>
+                  <div style="min-height:285px">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Rate" formControlName="rate" id="rate" name="rate">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <mat-select placeholder="Rank" id="rank" name="rank" formControlName="rank">
+                            <mat-option *ngFor="let rank of ranks" [value]="rank">{{rank}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="First Name" formControlName="fname" id="firstname" name="firstname">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="Last Name" formControlName="lname" id="lastname" name="lastname">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Official E-mail" formControlName="email" type="email" id="email" name="email">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="Password" formControlName="password" type="password" id="password" name="password">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="Confirm Password" formControlName="confirmpw" type="password" id="confirm" name="confirm">
+                        </mat-form-field>
+                      </div>
                     </div>
                   </div>
                   <div>
-                    <button mat-button matStepperNext color="primary">Next</button>
+                    <!-- TODO:  style these based on form validity -->
+                    <button mat-fab matStepperNext color="primary" style="float:right">Next</button>
                   </div>
                 </form>
               </mat-step>
-              <!-- TODO: Form validation bugs out -->
+              <!-- RECALL FORM GROUP -->
               <mat-step [stepControl]="recallFormGroup">
-                <form [formGroup]="recallFormGroup">
+                <form [formGroup]="recallFormGroup" novalidate>
                   <ng-template matStepLabel>Recall Information</ng-template>
-                  <mat-form-field>
-                    <input matInput placeholder="Street Address" formControlName="recallData" id="street" name="street" [(ngModel)]="registration.street"
-                      required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="City" formControlName="recallData" id="city" name="city" [(ngModel)]="registration.city" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-select placeholder="State" id="state" name="state" formControlName="recallData" [(ngModel)]="registration.state" required>
-                      <mat-option *ngFor="let state of states" [value]="state.value">{{state.viewValue}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Zip Code" formControlName="recallData" id="zip" name="zip" [(ngModel)]="registration.zip" maxlength="5"
-                      required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput placeholder="Phone" formControlName="recallData" type="tel" id="phone" name="phone" [(ngModel)]="registration.phoneNumber"
-                      minlength="10" required>
-                  </mat-form-field>
-                  <div>
-                    <button mat-button matStepperPrevious color="secondary">Back</button>
-                    <button mat-button matStepperNext color="primary">Next</button>
+                  <div style="min-height:300px">
+                    <mat-form-field>
+                      <input matInput placeholder="Street Address" formControlName="street" id="street" name="street">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="City" formControlName="city" id="city" name="city">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-select placeholder="State" id="state" name="state" formControlName="state">
+                        <mat-option *ngFor="let state of states" [value]="state.value">{{state.viewValue}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Zip Code" formControlName="zip" id="zip" name="zip">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput placeholder="Phone" formControlName="phone" type="tel" id="phone" name="phone">
+                    </mat-form-field>
+                    <div>
+                      <button mat-fab matStepperPrevious color="secondary" style="float:left">Back</button>
+                      <button mat-fab matStepperNext color="primary" style="float:right">Next</button>
+                    </div>
                   </div>
                 </form>
               </mat-step>
+              <!-- ADMIN FORM GROUP -->
               <mat-step [stepControl]="adminFormGroup">
-                <form [formGroup]="adminFormGroup">
+                <form [formGroup]="adminFormGroup" novalidate>
                   <ng-template matStepLabel>Administrative Information</ng-template>
-                  <!-- TODO:  Do something better with this -->
-                  <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjJtMPovtLVAhUB5oMKHW3JCKUQFggoMAA&url=https%3A%2F%2Fnsipsprod.nmci.navy.mil%2F&usg=AFQjCNFFz-TG1lUzoxm6pCzRuqTWX2pVxA"
-                    target="_blank">
-                    <i class="fa fa-question-circle fa-1x" style="color: #20a8d8" data-toggle="tooltip" title="Navigate to NSIPS > Employee Self Service > Electronic Service Record > Member Data Summary to find this information."></i>
-                  </a>
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="adsd" formControlName="adminData" placeholder="ADSD" id="adsd" name="adsd" [(ngModel)]="registration.adsd"
-                          required>
-                        <mat-datepicker-toggle matSuffix [for]="adsd"></mat-datepicker-toggle>
-                        <mat-datepicker #adsd></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="heaos" formControlName="adminData" placeholder="Hard EAOS" id="heaos" name="heaos" [(ngModel)]="registration.heaos"
-                          required>
-                        <mat-datepicker-toggle matSuffix [for]="heaos"></mat-datepicker-toggle>
-                        <mat-datepicker #heaos></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="seaos" formControlName="adminData" placeholder="Soft EAOS" id="seaos" name="seaos" [(ngModel)]="registration.seaos"
-                          required>
-                        <mat-datepicker-toggle matSuffix [for]="seaos"></mat-datepicker-toggle>
-                        <mat-datepicker #seaos></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="prd" formControlName="adminData" placeholder="PRD" id="prd" name="prd" [(ngModel)]="registration.prd"
-                          required>
-                        <mat-datepicker-toggle matSuffix [for]="prd"></mat-datepicker-toggle>
-                        <mat-datepicker #prd></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
+                  <div style="min-height:375px">
+                    <!-- TODO:  Do something better with this -->
+                    <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwjJtMPovtLVAhUB5oMKHW3JCKUQFggoMAA&url=https%3A%2F%2Fnsipsprod.nmci.navy.mil%2F&usg=AFQjCNFFz-TG1lUzoxm6pCzRuqTWX2pVxA"
+                      target="_blank">
+                      <i class="fa fa-question-circle fa-1x" style="color: #20a8d8" data-toggle="tooltip" title="Navigate to NSIPS > Employee Self Service > Electronic Service Record > Member Data Summary to find this information."></i>
+                    </a>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <!-- TODO:  custom pipe to format as milDate when using datepicker -->
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="adsd" formControlName="adsd" placeholder="ADSD" id="adsd" name="adsd">
+                          <mat-datepicker-toggle matSuffix [for]="adsd"></mat-datepicker-toggle>
+                          <mat-datepicker #adsd></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="heaos" formControlName="heaos" placeholder="Hard EAOS" id="heaos" name="heaos">
+                          <mat-datepicker-toggle matSuffix [for]="heaos"></mat-datepicker-toggle>
+                          <mat-datepicker #heaos></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="seaos" formControlName="seaos" placeholder="Soft EAOS" id="seaos" name="seaos">
+                          <mat-datepicker-toggle matSuffix [for]="seaos"></mat-datepicker-toggle>
+                          <mat-datepicker #seaos></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="prd" formControlName="prd" placeholder="PRD" id="prd" name="prd">
+                          <mat-datepicker-toggle matSuffix [for]="prd"></mat-datepicker-toggle>
+                          <mat-datepicker #prd></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="reportDate" formControlName="report" placeholder="Report Date" id="reportDate" name="reportDate">
+                          <mat-datepicker-toggle matSuffix [for]="reportDate"></mat-datepicker-toggle>
+                          <mat-datepicker #reportDate></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="tirDate" formControlName="tir" placeholder="TIR Date" id="tirDate" name="tirDate">
+                          <mat-datepicker-toggle matSuffix [for]="tirDate"></mat-datepicker-toggle>
+                          <mat-datepicker #tirDate></mat-datepicker>
+                          <mat-hint>ddMMMyy</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="Destination UIC" formControlName="uic" id="destUIC" name="destUIC">
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="Destination Command" formControlName="command" id="destCommand" name="destCommand">
+                        </mat-form-field>
+                      </div>
                     </div>
-                    <div class="col-lg-6">
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="reportDate" formControlName="adminData" placeholder="Report Date" id="reportDate" name="reportDate"
-                          [(ngModel)]="registration.reportDate" required>
-                        <mat-datepicker-toggle matSuffix [for]="reportDate"></mat-datepicker-toggle>
-                        <mat-datepicker #reportDate></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput [matDatepicker]="tirDate" formControlName="adminData" placeholder="TIR Date" id="tirDate" name="tirDate"
-                          [(ngModel)]="registration.tirDate" required>
-                        <mat-datepicker-toggle matSuffix [for]="tirDate"></mat-datepicker-toggle>
-                        <mat-datepicker #tirDate></mat-datepicker>
-                        <mat-hint>ddMMMyy</mat-hint>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="Destination UIC" formControlName="adminData" id="destUIC" name="destUIC" [(ngModel)]="registration.destUIC"
-                          required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="Destination Command" formControlName="adminData" id="destCommand" name="destCommand" [(ngModel)]="registration.destCommand"
-                          required>
-                      </mat-form-field>
+                    <!-- TODO:  fix styling -->
+                    <mat-checkbox formControlName="bluebadge">Blue Badge</mat-checkbox>
+                    <div>
+                      <button mat-fab matStepperPrevious color="secondary" style="float:left">Back</button>
+                      <!-- TODO:  Make sure this works -->
+                      <!-- TODO:  disable if forms not valid -->
+                      <button mat-fab color="primary" (click)="signUp()" style="float:right">Submit</button>
                     </div>
-                  </div>
-                  <mat-checkbox [(ngModel)]="registration.blueBadge" formControlName="adminData">Blue Badge</mat-checkbox>
-                  <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <!-- TODO:  Make sure this works -->
-                    <button mat-button color="primary" (click)="signUp()">Submit</button>
                   </div>
                 </form>
               </mat-step>
             </mat-horizontal-stepper>
 
-            <!-- TODO:  reimplement this password checker -->
+            <!-- TODO:  reimplement this password feedback -->
             <!-- <em ng-show="showPwRules">
             <label ng-class="hasUpper ? 'validated' : 'invalidated'">1+ uppercase, </label>
             <label ng-class="hasLower ? 'validated' : 'invalidated'">1+ lowercase, </label>
@@ -172,17 +168,11 @@
             <label ng-class="hasSix ? 'validated' : 'invalidated'">6+ characters, </label>
           </em> -->
 
-            <div class="button-group" style="text-align:center;">
-              <!-- TODO: test this -->
-              <app-messages></app-messages>
-              <!-- TODO: convert from js... animate or do something cooler -->
-              <em ng-show="validForm">
+            <app-messages></app-messages>
+            <!-- TODO: convert from js... animate or do something cooler.  a modal? -->
+            <!-- <em ng-show="validForm">
                 <span class="highlight" style="font-size: 16px">Your username is: {{registration.firstName | lowercase}}.{{registration.lastName | lowercase}}</span>
-              </em>
-              <br>
-              <button type="submit" [ngClass]="!validForm ? 'btn btn-lg btn-secondary btn-block': 'btn btn-lg btn-primary btn-block'">Submit</button>
-              <button class="btn btn-lg btn-danger btn-block" type="reset">Reset</button>
-            </div>
+              </em> -->
           </div>
         </div>
       </div>
