@@ -8,6 +8,7 @@ import { RegistrationData } from "app/models/registration-data.model";
 import { LoginData } from "app/models/login-data.model";
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { error } from 'util';
+import { PasswordValidators } from 'app/accounts/register/password.validators';
 
 @Component({
   selector: 'app-register',
@@ -37,12 +38,12 @@ export class RegisterComponent implements OnInit {
 
   createForms() {
     this.accountFormGroup = this._formBuilder.group({
-      rate: ['', Validators.required],
+      rate: ['', [Validators.required, Validators.pattern("[a-z,A-Z]{2,3}-?[1-9]")]],
       rank: ['', Validators.required],
       fname: ['', Validators.required],
       lname: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, PasswordValidators.cannotContainSpace]],
       confirmpw: ['', Validators.required]
     });
 

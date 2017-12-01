@@ -54,13 +54,13 @@
                   </div>
                   <div>
                     <!-- TODO:  style these based on form validity -->
-                    <button mat-fab matStepperNext color="primary" style="float:right">Next</button>
+                    <button mat-fab matStepperNext color="primary" style="float:right" [disabled]="!accountFormGroup.valid">Next</button>
                   </div>
                 </form>
               </mat-step>
               <!-- RECALL FORM GROUP -->
               <mat-step [stepControl]="recallFormGroup">
-                <form [formGroup]="recallFormGroup" novalidate>
+                <form [formGroup]="recallFormGroup" validate>
                   <ng-template matStepLabel>Recall Information</ng-template>
                   <div style="min-height:300px">
                     <mat-form-field>
@@ -81,8 +81,8 @@
                       <input matInput placeholder="Phone" formControlName="phone" type="tel" id="phone" name="phone">
                     </mat-form-field>
                     <div>
+                      <button mat-fab matStepperNext color="primary" style="float:right" [disabled]="!recallFormGroup.valid">Next</button>
                       <button mat-fab matStepperPrevious color="secondary" style="float:left">Back</button>
-                      <button mat-fab matStepperNext color="primary" style="float:right">Next</button>
                     </div>
                   </div>
                 </form>
@@ -149,10 +149,11 @@
                     <!-- TODO:  fix styling -->
                     <mat-checkbox formControlName="bluebadge">Blue Badge</mat-checkbox>
                     <div>
-                      <button mat-fab matStepperPrevious color="secondary" style="float:left">Back</button>
                       <!-- TODO:  Make sure this works -->
                       <!-- TODO:  disable if forms not valid -->
-                      <button mat-fab color="primary" (click)="signUp()" style="float:right">Submit</button>
+                      <button mat-fab color="primary" [disabled]="!adminFormGroup.valid" (click)="signUp()" style="float:right">Submit</button>
+                      <button mat-fab matStepperPrevious color="secondary" style="float:left">Back</button>
+
                     </div>
                   </div>
                 </form>
