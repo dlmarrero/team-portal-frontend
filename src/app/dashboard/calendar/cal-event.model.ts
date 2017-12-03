@@ -17,7 +17,3 @@ export class CalEvent<MetaType = any> {
     draggable?: boolean;
     meta?: MetaType;
 }
-
-export class AllEvents {
-    events: CalEvent[];
-}

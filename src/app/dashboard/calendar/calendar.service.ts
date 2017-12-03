@@ -1,15 +1,13 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { environment } from 'environments/environment';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
-import { Router } from '@angular/router';
 
-import { CalEvent, AllEvents } from "./cal-event.model";
+import { CalEvent } from "./cal-event.model";
 import { EventColor } from 'calendar-utils';
 
 
@@ -40,8 +38,7 @@ const colors: any = {
 @Injectable()
 export class CalendarService {
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) { }
 
   private apiUrl = environment.apiUrl;
