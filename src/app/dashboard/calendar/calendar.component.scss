@@ -1,0 +1,10 @@
+.cal-row {
+    display: flex;
+    flex-direction: row;
+}
+.cal-view {
+    flex-grow: 2;
+}
+.cal-add {
+    flex-grow: 1;
+}

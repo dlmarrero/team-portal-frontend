@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { CalendarModule } from 'angular-calendar';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MatTabsModule, MatDialogModule } from '@angular/material';
+import { MatTabsModule, MatDialogModule, MatButtonModule } from '@angular/material';
 
 
 import { DashboardComponent } from './dashboard.component';
@@ -17,7 +17,7 @@ import { CalendarService } from './calendar/calendar.service';
     DashboardRoutingModule,
     CommonModule,
     FormsModule,
-    MatTabsModule, MatDialogModule,
+    MatTabsModule, MatDialogModule, MatButtonModule,
     CalendarModule.forRoot(),
     ChartsModule,
     BsDropdownModule
