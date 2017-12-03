@@ -59,6 +59,7 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 // TODO:  style navigation buttons
 // TODO:  add tooltip to + event to read "New Event"
 
+
 export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
@@ -96,7 +97,8 @@ export class CalendarComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.getEvents();
+    // this.getEvents();
+    // this.calService.events.subscribe(events => this.events = events);
     this.createForm();
   }
 
@@ -129,22 +131,22 @@ export class CalendarComponent implements OnInit {
     }
 
     return this.calService.saveEvent(newEvent)
-      .subscribe(events => {
-        events.forEach(event => event.actions = this.actions);
-        this.events = events;
-        this.refresh.next();
-      });
+    // .subscribe(events => {
+    //   events.forEach(event => event.actions = this.actions);
+    //   this.events = events;
+    //   this.refresh.next();
+    // });
 
     // this.refresh.next();
   }
 
   getEvents() {
     return this.calService.getEvents()
-      .subscribe(events => {
-        events.forEach(event => event.actions = this.actions);
-        this.events = events;
-        this.refresh.next();
-      })
+    // .subscribe(events => {
+    //   events.forEach(event => event.actions = this.actions);
+    //   this.events = events;
+    //   this.refresh.next();
+    // })
   }
   // SERVICE CALL FUNCTIONS ***
 
