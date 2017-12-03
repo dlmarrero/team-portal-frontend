@@ -22,7 +22,12 @@ import {
   MAT_DIALOG_DATA,
   MatTabGroup,
   MatTab,
-  MatButton
+  MatButton,
+  MatInput,
+  MatFormField,
+  MatDatepicker,
+  MatCheckbox,
+  MatSelect
 } from '@angular/material';
 import {
   CalendarEvent,
@@ -31,6 +36,8 @@ import {
 } from 'angular-calendar';
 import { CalendarService } from './calendar.service';
 import { CalEvent } from './cal-event.model';
+import { tap } from 'rxjs/operators';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -40,6 +47,17 @@ import { CalEvent } from './cal-event.model';
   templateUrl: './calendar.component.html'
 })
 
+
+// TODO:  update/delete events
+// TODO:  configure resizing/drag options on incoming events (if not all day, and is team lead allow it)
+// TODO:  nothing happens when clicking a day in week or day view.  would be nice if day view allowed a time click
+// TODO:  use signalR to push updated events to front end
+// TODO:  animate new event slide out
+// TODO:  sort daily events by type/name
+// TODO:  scrollbar messes with sizing. perfect scrollbar?
+// TODO:  add event description, shows only in details (modal)
+// TODO:  style navigation buttons
+// TODO:  add tooltip to + event to read "New Event"
 
 export class CalendarComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -67,7 +85,9 @@ export class CalendarComponent implements OnInit {
 
   // Initialize event variables
   events: CalEvent[] = [];
-  newEvent: CalEvent;
+  eventTypes: string[] = ['Volunteer', 'Appointment', 'Event', 'Watch', 'Leave'];
+  showAdd: boolean = false;
+  eventForm: FormGroup;
 
   // For testing purposes
   modalData: {
@@ -77,27 +97,44 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     this.getEvents();
+    this.createForm();
   }
 
   constructor(
     private modal: MatDialog, // TODO:  remove when no longer necessary
-    private calService: CalendarService) { }
+    private calService: CalendarService,
+    private fb: FormBuilder) { }
 
+  createForm() {
+    this.eventForm = this.fb.group({
+      title: ['', Validators.required],
+      type: ['', Validators.required],
+      start: [this.viewDate, Validators.required],
+      end: [this.viewDate],
+      allDay: [false]
+    })
+  }
 
   // *** SERVICE CALL FUNCTIONS
   // TODO:  implement this in service
-  addEvent(): void {
-    // this.events.push({
-    //   title: 'New event',
-    //   start: startOfDay(new Date()),
-    //   end: endOfDay(new Date()),
-    //   color: colors.red,
-    //   draggable: true,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true
-    //   }
-    // });
+  saveEvent() {
+    const formData = this.eventForm.value;
+
+    const newEvent: CalEvent = {
+      title: formData.title as string,
+      type: formData.type as string,
+      start: new Date(formData.start),
+      end: new Date(formData.end),
+      allDay: formData.allDay as boolean
+    }
+
+    return this.calService.saveEvent(newEvent)
+      .subscribe(events => {
+        events.forEach(event => event.actions = this.actions);
+        this.events = events;
+        this.refresh.next();
+      });
+
     // this.refresh.next();
   }
 
@@ -123,8 +160,16 @@ export class CalendarComponent implements OnInit {
         this.activeDayIsOpen = true;
       }
     }
-    // Added this because if no events were on selected date, would not change viewDate
+
+    // Added this because if no events were on selected date, 
+    // it would not change viewDate
     this.viewDate = date;
+
+    // Update form start and end date to match clicked date
+    this.eventForm.patchValue({
+      start: date,
+      end: date,
+    })
   }
 
   eventTimesChanged({

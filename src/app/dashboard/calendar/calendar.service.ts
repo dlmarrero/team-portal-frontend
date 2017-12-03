@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -12,11 +12,6 @@ import { Router } from '@angular/router';
 import { CalEvent, AllEvents } from "./cal-event.model";
 import { EventColor } from 'calendar-utils';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-  })
-};
 
 const colors: any = {
   red: {
@@ -50,62 +45,65 @@ export class CalendarService {
   ) { }
 
   private apiUrl = environment.apiUrl;
+  public events: CalEvent[] = [];
 
-  /** GET all events from server */
-  getEvents(): Observable<any> {
+  /** GET  all events from server */
+  getEvents(): Observable<CalEvent[]> {
     return this.http.get<CalEvent[]>(this.apiUrl + '/api/events')
       .map(events => {
-        let eventsArray: CalEvent[] = [];
-        // let eventsArray = [];
         let color: EventColor;
 
-        events.forEach((calEvent: CalEvent) => {
-          // Set up colors
-          switch (calEvent.type) {
-            case 'volunteer':
-              color = colors.green;
-              break;
-            case 'appointment':
-              color = colors.red;
-              break;
-            case 'event':
-              color = colors.blue;
-              break;
-            // TODO:  make some color palettes
-            case 'watch':
-              color = colors.yellow;
-              break;
-            case 'leave':
-              color = colors.purple;
-              break;
-            default:
-              break;
-          }
+        events.forEach((event: CalEvent) => {
 
-          // Build event to pass to array
+          // Build event to pass to array for view model
           let ev: CalEvent = {
-            start: new Date(calEvent.start),
-            end: new Date(calEvent.end),
-            type: calEvent.type,
-            title: calEvent.title,
-            color: color,
+            start: new Date(event.start),
+            end: new Date(event.end) || undefined, // all day events have no end
+            allDay: event.allDay,
+            type: event.type,
+            title: event.title,
+            color: this.getColor(event.type)
           }
-
-          eventsArray.push(ev);
+          this.events.push(ev);
         })
 
-        return eventsArray;
+        return this.events;
       })
   }
 
+  /** POST  save a new event */
+  saveEvent(ev): Observable<any> {
+    return this.http.post(this.apiUrl + '/api/events', ev)
+      .map((event: CalEvent) => {
+        // Build event to pass to array for view model
+        let ev: CalEvent = {
+          start: new Date(event.start),
+          end: new Date(event.end) || undefined, // all day events have no end
+          allDay: event.allDay,
+          type: event.type,
+          title: event.title,
+          color: this.getColor(event.type),
+        }
+        this.events.push(ev);
 
-  /** POST:  register a new user */
-  register(registration): Observable<any> {
-    return this.http.post(this.apiUrl + '/api/account/register', registration);
-    // .subscribe(data => {
-    //   this.log('Regisration successful!  Logging you in...', true)
-    // }, err => {
-    //   this.log(err.error.error_description, false)
-    // })
+        this.events.push(event)
+        return this.events;
+      });
   };
+
+  getColor(evType) {
+    // Set up colors
+    switch (evType) {
+      case 'Volunteer':
+        return colors.green;
+      case 'Appointment':
+        return colors.yellow;
+      case 'Event':
+        return colors.blue;
+      case 'Watch':
+        return colors.red;
+      case 'Leave':
+        return colors.purple;
+    }
+  }
 }
