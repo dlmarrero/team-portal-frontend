@@ -19,6 +19,7 @@ import { Subject } from 'rxjs/Subject';
 import {
   MatDialog,
   MatDialogRef,
+  MatDialogClose,
   MAT_DIALOG_DATA,
   MatTabGroup,
   MatTab,
@@ -101,7 +102,7 @@ export class CalendarComponent implements OnInit {
 
 
   constructor(
-    private modal: MatDialog, // TODO:  remove when no longer necessary
+    private modal: MatDialog,
     private calService: CalendarService,
     private fb: FormBuilder) { }
 
@@ -184,10 +185,9 @@ export class CalendarComponent implements OnInit {
 
   confirmDel(event: CalEvent): void {
     this.modalData = { event };
-    this.modal.open(this.delModal);
+    this.delModalRef = this.modal.open(this.delModal);
   }
 
-  // TODO:  remove when no longer needed
   handleEvent(action: string, event: CalEvent): void {
     if (action === 'Clicked') {
       this.modalData = { event };

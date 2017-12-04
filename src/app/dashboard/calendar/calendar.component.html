@@ -50,13 +50,15 @@
       </div>
       <div class="modal-body" style="text-align:center">
         <div>
-          <p>{{ modalData?.event.title }}
-            <em>({{ modalData?.event.type }})</em>
+          <p>{{ modalData.event.title }}
+            <em>({{ modalData.event.type }})</em>
           </p>
-          <p>{{ modalData?.event.start | date:'short' }} - {{ modalData?.event.end | date:'short' }}</p>
+          <p>{{ modalData.event.start | date:'short' }} - {{ modalData?.event.end | date:'short' }}</p>
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="width:100%" (click)="null">Edit</button>
+        <button type="button" class="btn btn-danger" style="width:100%" (click)="confirmDel(modalData.event)">Delete</button>
         <button type="button" class="btn btn-secondary" style="width:100%" (click)="modal.closeAll()">Close</button>
       </div>
     </ng-template>
@@ -117,10 +119,10 @@
       <div *ngIf="showAdd" class="cal-add">
         <h4>Create New Event</h4>
         <hr>
-        <form [formGroup]="eventForm" (ngSubmit)="saveEvent()" novalidate>
+        <form [formGroup]="eventForm" (ngSubmit)="saveEvent()" style="font-size:16px" novalidate>
           <!-- TODO:  set focus to title input on open -->
           <mat-form-field style="width:100%">
-            <input matInput placeholder="Title" formControlName="title" name="title" required>
+            <input matInput placeholder="Title" formControlName="title" name="title" required autofocus>
           </mat-form-field>
           <br>
           <mat-form-field style="width:100%">
