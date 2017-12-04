@@ -14,7 +14,7 @@
               <br>
             </div>
 
-            <mat-horizontal-stepper [linear]="false" style="text-align:center;">
+            <mat-horizontal-stepper [linear]="true" style="text-align:center;">
               <!-- TODO:  Use better form validation -->
               <!-- ACCOUNT FORM GROUP -->
               <mat-step [stepControl]="accountFormGroup">
@@ -45,16 +45,33 @@
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput placeholder="Password" formControlName="password" type="password" id="password" name="password">
+                          <mat-hint align="end">
+                              <ul>
+                                <li [style.color]="specCharPassword() ? 'green' : 'red'">One Special character</li>
+                                <li [style.color]="upperCharPassword() ? 'green' : 'red'">One UPPERCASE Letter</li>
+                                <li [style.color]="lowerCharPassword() ? 'green' : 'red'">One lowercase Letter</li>
+                                <li [style.color]="numberCharPassword() ? 'green' : 'red'">One Number</li>
+                              </ul>
+                              <div><p></p><br /><p></p></div>
+                          </mat-hint>
+                          <!-- <mat-error *ngIf="password.invalid">Hi</mat-error> -->
                         </mat-form-field>
+                        <div><p></p></div>
                         <mat-form-field>
-                          <input matInput placeholder="Confirm Password" formControlName="confirmpw" type="password" id="confirm" name="confirm">
+                          <input matInput placeholder="Confirm Password" formControlName="confirmpw"  type="password" id="confirm" name="confirm">
+                          
                         </mat-form-field>
                       </div>
                     </div>
                   </div>
                   <div>
                     <!-- TODO:  style these based on form validity -->
+<<<<<<< HEAD
                     <button mat-fab matStepperNext color="primary" style="float:right" [disabled]="!accountFormGroup.valid">Next</button>
+=======
+                    <button mat-fab matStepperNext color="primary" style="float:right" [disabled]="!accountFormGroup.valid" (click)="checkPassword()">Next</button>
+                    
+>>>>>>> origin/master
                   </div>
                 </form>
               </mat-step>
@@ -77,7 +94,7 @@
                     <mat-form-field>
                       <input matInput placeholder="Zip Code" formControlName="zip" id="zip" name="zip">
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field hintLabel="i.e. 0000000000">
                       <input matInput placeholder="Phone" formControlName="phone" type="tel" id="phone" name="phone">
                     </mat-form-field>
                     <div>
@@ -104,25 +121,25 @@
                           <input matInput [matDatepicker]="adsd" formControlName="adsd" placeholder="ADSD" id="adsd" name="adsd">
                           <mat-datepicker-toggle matSuffix [for]="adsd"></mat-datepicker-toggle>
                           <mat-datepicker #adsd></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput [matDatepicker]="heaos" formControlName="heaos" placeholder="Hard EAOS" id="heaos" name="heaos">
                           <mat-datepicker-toggle matSuffix [for]="heaos"></mat-datepicker-toggle>
                           <mat-datepicker #heaos></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput [matDatepicker]="seaos" formControlName="seaos" placeholder="Soft EAOS" id="seaos" name="seaos">
                           <mat-datepicker-toggle matSuffix [for]="seaos"></mat-datepicker-toggle>
                           <mat-datepicker #seaos></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput [matDatepicker]="prd" formControlName="prd" placeholder="PRD" id="prd" name="prd">
                           <mat-datepicker-toggle matSuffix [for]="prd"></mat-datepicker-toggle>
                           <mat-datepicker #prd></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                       </div>
                       <div class="col-lg-6">
@@ -130,13 +147,13 @@
                           <input matInput [matDatepicker]="reportDate" formControlName="report" placeholder="Report Date" id="reportDate" name="reportDate">
                           <mat-datepicker-toggle matSuffix [for]="reportDate"></mat-datepicker-toggle>
                           <mat-datepicker #reportDate></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput [matDatepicker]="tirDate" formControlName="tir" placeholder="TIR Date" id="tirDate" name="tirDate">
                           <mat-datepicker-toggle matSuffix [for]="tirDate"></mat-datepicker-toggle>
                           <mat-datepicker #tirDate></mat-datepicker>
-                          <mat-hint>ddMMMyy</mat-hint>
+                          <mat-hint>mm/dd/yyyy</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                           <input matInput placeholder="Destination UIC" formControlName="uic" id="destUIC" name="destUIC">
