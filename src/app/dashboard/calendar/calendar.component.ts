@@ -90,9 +90,12 @@ export class CalendarComponent implements OnInit {
 
   // Initialize event variables
   events: CalEvent[] = [];
+  updatedEv: CalEvent;
   eventTypes: string[] = ['Volunteer', 'Appointment', 'Event', 'Watch', 'Leave'];
   showAdd: boolean = false;
-  eventForm: FormGroup;
+  showEdit: boolean = false;
+  createForm: FormGroup;
+  editForm: FormGroup;
 
   // For testing purposes
   modalData: {
@@ -108,7 +111,7 @@ export class CalendarComponent implements OnInit {
 
 
   ngOnInit() {
-    this.createForm();
+    this.buildForms();
     this.calService.events.subscribe(evs => {
       evs.forEach(event => event.actions = this.actions);
       this.events = evs;
@@ -116,21 +119,29 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  createForm() {
-    this.eventForm = this.fb.group({
+  buildForms() {
+    this.createForm = this.fb.group({
       title: ['', Validators.required],
       type: ['', Validators.required],
       start: [this.viewDate, Validators.required],
       end: [this.viewDate],
       allDay: [false]
     })
+
+    this.editForm = this.fb.group({
+      title: ['', Validators.required],
+      type: ['', Validators.required],
+      start: ['', Validators.required],
+      end: [''],
+      allDay: ['']
+    })
   }
 
 
   // *** SERVICE CALL FUNCTIONS
   saveEvent() {
-    if (this.eventForm.valid) {
-      const formData = this.eventForm.value;
+    if (this.createForm.valid) {
+      const formData = this.createForm.value;
 
       const newEvent: CalEvent = {
         title: formData.title as string,
@@ -146,6 +157,27 @@ export class CalendarComponent implements OnInit {
 
   delEvent(ev: CalEvent) {
     this.calService.delEvent(ev)
+  }
+
+  editEvent(ev: CalEvent) {
+    this.updatedEv = ev;
+    this.editForm.setValue({
+      title: ev.title,
+      type: ev.type,
+      start: ev.start,
+      end: ev.end,
+      allDay: ev.allDay
+    })
+    this.showEdit = true;
+    this.refresh.next();
+  }
+
+  updateEvent() {
+    if (this.editForm.valid) {
+      this.calService.updateEvent(this.updatedEv);
+      this.showEdit = false;
+      this.refresh.next();
+    }
   }
   // SERVICE CALL FUNCTIONS ***
 
@@ -166,7 +198,7 @@ export class CalendarComponent implements OnInit {
     // it would not change viewDate
 
     // Update form start and end date to match clicked date
-    this.eventForm.patchValue({
+    this.createForm.patchValue({
       start: date,
       end: date,
     })
@@ -185,16 +217,21 @@ export class CalendarComponent implements OnInit {
 
   confirmDel(event: CalEvent): void {
     this.modalData = { event };
-    this.delModalRef = this.modal.open(this.delModal);
+    this.modal.open(this.delModal);
   }
 
   handleEvent(action: string, event: CalEvent): void {
-    if (action === 'Clicked') {
-      this.modalData = { event };
-      this.modal.open(this.detailsModal)
-    } else {
-      this.modalData = { event, action };
-      this.modal.open(this.modalContent);
+    switch (action) {
+      case 'Clicked':
+        this.modalData = { event };
+        this.modal.open(this.detailsModal)
+        break;
+      case 'Edited':
+        this.editEvent(event);
+      default:
+        // this.modalData = { event, action };
+        // this.modal.open(this.modalContent);
+        break;
     }
   }
   // EVENT HANDLERS ***

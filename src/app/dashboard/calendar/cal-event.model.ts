@@ -1,6 +1,6 @@
 import { CalendarEvent, EventColor, EventAction } from "calendar-utils";
 
-export class CalEvent<MetaType = any> {
+export interface CalEvent<MetaType = any> {
     id?: number;
     start: Date;
     end?: Date;

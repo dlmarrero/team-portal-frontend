@@ -85,6 +85,17 @@ export class CalendarService {
     return obs
   };
 
+  updateEvent(updatedEv: CalEvent): Observable<any> {
+    let obs = this.http.put(this.apiUrl + updatedEv.id.toString(), updatedEv)
+    obs.subscribe((event: CalEvent) => {
+      let evs: CalEvent[] = this._events.getValue();
+      let index = evs.indexOf(updatedEv)
+      evs[index] = updatedEv;
+      this._events.next(evs);
+    });
+    return obs;
+  }
+
   /** Delete an event */
   delEvent(deletedEv: CalEvent): Observable<any> {
     let obs = this.http.delete(this.apiUrl + deletedEv.id.toString())

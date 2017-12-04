@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" style="width:100%" (click)="null">Edit</button>
+        <button type="button" class="btn btn-primary" style="width:100%" (click)="editEvent(modalData.event);modal.closeAll()">Edit</button>
         <button type="button" class="btn btn-danger" style="width:100%" (click)="confirmDel(modalData.event)">Delete</button>
         <button type="button" class="btn btn-secondary" style="width:100%" (click)="modal.closeAll()">Close</button>
       </div>
@@ -119,7 +119,7 @@
       <div *ngIf="showAdd" class="cal-add">
         <h4>Create New Event</h4>
         <hr>
-        <form [formGroup]="eventForm" (ngSubmit)="saveEvent()" style="font-size:16px" novalidate>
+        <form [formGroup]="createForm" (ngSubmit)="saveEvent()" style="font-size:16px" novalidate>
           <!-- TODO:  set focus to title input on open -->
           <mat-form-field style="width:100%">
             <input matInput placeholder="Title" formControlName="title" name="title" required autofocus>
@@ -140,7 +140,7 @@
             <mat-hint>yy/MMM/dd HH:MM</mat-hint>
           </mat-form-field>
           <br>
-          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="eventForm.get('allDay').value">
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="createForm.get('allDay').value">
             <input matInput [matDatepicker]="end" placeholder="End Date/Time" formControlName="end" name="end">
             <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
             <mat-datepicker #end></mat-datepicker>
@@ -156,6 +156,91 @@
           <button mat-button (click)="showAdd=false">Done</button>
         </form>
       </div>
+
+      <!-- EVENT EDIT PANEL -->
+      <!-- <div *ngIf="showEdit" class="cal-add">
+        <h4>Edit Event</h4>
+        <hr>
+        <form [formGroup]="editForm" (ngSubmit)="updateEvent()" style="font-size:16px" novalidate> -->
+      <!-- TODO:  set focus to title input on open -->
+      <!-- <mat-form-field style="width:100%">
+            <input matInput placeholder="Title" formControlName="title" name="title" required autofocus>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%">
+            <mat-select placeholder="Type" formControlName="type" name="type" required>
+              <mat-option *ngFor="let type of eventTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <mat-form-field style="width:100%;padding-bottom:20px">
+            <input matInput [matDatepicker]="start" placeholder="Start Date/Time" formControlName="start" name="start" required>
+            <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+            <mat-datepicker #start></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="editForm.get('allDay').value">
+            <input matInput [matDatepicker]="end" placeholder="End Date/Time" formControlName="end" name="end">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-checkbox matInput formControlName="allDay" name="allDay">All day</mat-checkbox>
+          <br>
+          <br>
+          <button mat-fab type="submit">Submit</button>
+          <br>
+          <br>
+          <button mat-button (click)="showEdit=false">Done</button>
+        </form>
+      </div> -->
+
+      <!-- EVENT EDIT PANEL (TEMPLATE DRIVEN) -->
+      <div *ngIf="showEdit" class="cal-add">
+        <h4>Edit Event</h4>
+        <hr>
+        <form #editForm="ngForm" (ngSubmit)="updateEvent()" style="font-size:16px" novalidate>
+          <!-- TODO:  set focus to title input on open -->
+          <mat-form-field style="width:100%">
+            <input matInput placeholder="Title" [(ngModel)]="updatedEv.title" name="title" required autofocus>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%">
+            <mat-select placeholder="Type" [(ngModel)]="updatedEv.type" name="type" required>
+              <mat-option *ngFor="let type of eventTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <mat-form-field style="width:100%;padding-bottom:20px">
+            <input matInput [matDatepicker]="start" placeholder="Start Date/Time" [(ngModel)]="updatedEv.start" name="start" required>
+            <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+            <mat-datepicker #start></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="updatedEv.allDay">
+            <input matInput [matDatepicker]="end" placeholder="End Date/Time" [(ngModel)]="updatedEv.end" name="end">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-checkbox matInput [(ngModel)]="updatedEv.allDay" name="allDay">All day</mat-checkbox>
+          <br>
+          <br>
+          <button mat-fab type="submit">Submit</button>
+          <br>
+          <br>
+          <button mat-button (click)="showEdit=false">Done</button>
+        </form>
+      </div>
+
     </div>
   </div>
 </div>
