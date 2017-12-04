@@ -4,8 +4,11 @@ import { AlphaRosterComponent } from 'app/views/alpha-roster/alpha-roster.compon
 
 const routes: Routes = [
   {
-    path: 'roster',
-    component: AlphaRosterComponent
+    path: '',
+    component: AlphaRosterComponent,
+    data: {
+      title: "roster"
+    }
     
   }
 ];

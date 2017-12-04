@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -71,6 +71,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AuthGuard } from 'app/guards/auth.guard';
 import { AlphaRosterModule } from 'app/views/alpha-roster/alpha-roster.module';
+import { AuthInterceptor } from './services/authinterceptor.service';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { AlphaRosterModule } from 'app/views/alpha-roster/alpha-roster.module';
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   },
-    AuthGuard],
+    AuthGuard,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

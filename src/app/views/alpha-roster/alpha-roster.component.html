@@ -1,11 +1,17 @@
-<div class="example-container mat-elevation-z8">
+
+<div class="example-container mat-elevation-z1">
+    <div><p></p></div>  
+    <div><p></p></div>  
+    <div class="head-container">
+    <h1 align="center">Alpha Roster</h1>
+  </div>
   <mat-table #table [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
     <!-- Position Column -->
-    <ng-container matColumnDef="position">
+    <ng-container class="head-container id-field" matColumnDef="position">
       <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
     </ng-container>

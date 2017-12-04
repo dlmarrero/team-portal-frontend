@@ -28,6 +28,10 @@ export const routes: Routes = [
         loadChildren: './views/dashboard/dashboard.module#DashboardModule'
       },
       {
+        path: 'roster',
+        loadChildren: './views/alpha-roster/alpha-roster.module#AlphaRosterModule'
+      },
+      {
         path: 'components',
         loadChildren: './views/components/components.module#ComponentsModule'
       },
