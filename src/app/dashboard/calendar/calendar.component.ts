@@ -48,8 +48,8 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 })
 
 
-// TODO:  update/delete events
-// TODO:  configure resizing/drag options on incoming events (if not all day, and is team lead allow it)
+// TODO:  update events
+// TODO:  configure resizing/drag options on incoming events (if not all day, and if team lead allow it)
 // TODO:  nothing happens when clicking a day in week or day view.  would be nice if day view allowed a time click
 // TODO:  use signalR to push updated events to front end
 // TODO:  animate new event slide out
