@@ -56,6 +56,7 @@
       </div>
       <div class="col-md-1" style="position:absolute;right:10px">
         <button mat-button color="primary" style="border:none;outline:none" (click)="showAdd = true">
+          <!-- TODO:  make this bigger -->
           <i class="material-icons ">add</i>
         </button>
       </div>
@@ -63,8 +64,8 @@
     <br>
     <div class="cal-row">
       <div class="cal-view" [ngSwitch]="view">
-        <mwl-calendar-month-view *ngSwitchCase=" 'month' " [viewDate]="viewDate " [events]="calService.events | async" [refresh]="refresh"
-          [activeDayIsOpen]="activeDayIsOpen " (dayClicked)="dayClicked($event.day) " (eventClicked)="handleEvent( 'Clicked', $event.event)
+        <mwl-calendar-month-view *ngSwitchCase=" 'month' " [viewDate]="viewDate " [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen "
+          (dayClicked)="dayClicked($event.day) " (eventClicked)="handleEvent( 'Clicked', $event.event)
         " (eventTimesChanged)="eventTimesChanged($event) ">
         </mwl-calendar-month-view>
         <mwl-calendar-week-view *ngSwitchCase=" 'week' " [viewDate]="viewDate " [events]="events " [refresh]="refresh" (eventClicked)="handleEvent( 'Clicked', $event.event) "
@@ -80,6 +81,7 @@
         <h4>Create New Event</h4>
         <hr>
         <form [formGroup]="eventForm" (ngSubmit)="saveEvent()" novalidate>
+          <!-- TODO:  set focus to title input on open -->
           <mat-form-field style="width:100%">
             <input matInput placeholder="Title" formControlName="title" name="title" required>
           </mat-form-field>

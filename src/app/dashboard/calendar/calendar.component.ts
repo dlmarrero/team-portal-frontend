@@ -58,6 +58,7 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 // TODO:  add event description, shows only in details (modal)
 // TODO:  style navigation buttons
 // TODO:  add tooltip to + event to read "New Event"
+// TODO:  all event editing should probably be restricted to team leads
 
 
 export class CalendarComponent implements OnInit {
@@ -67,7 +68,7 @@ export class CalendarComponent implements OnInit {
   view: string = 'month';           // Default view
   viewDate: Date = new Date();      // Stores current date to display events
   activeDayIsOpen: boolean = true;
-  actions = [                       // Handles edit and delete events
+  actions = [                       // Sets up edit and delete events
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({ event }: { event: CalEvent }): void => {
@@ -82,7 +83,8 @@ export class CalendarComponent implements OnInit {
       }
     }
   ];
-  refresh: Subject<any> = new Subject();
+
+  refresh: Subject<any> = new Subject();  // Used to trigger calendar to update
 
   // Initialize event variables
   events: CalEvent[] = [];
@@ -96,16 +98,21 @@ export class CalendarComponent implements OnInit {
     event: CalEvent;
   };
 
-  ngOnInit() {
-    // this.getEvents();
-    // this.calService.events.subscribe(events => this.events = events);
-    this.createForm();
-  }
 
   constructor(
     private modal: MatDialog, // TODO:  remove when no longer necessary
     private calService: CalendarService,
     private fb: FormBuilder) { }
+
+
+  ngOnInit() {
+    this.createForm();
+    this.calService.events.subscribe(evs => {
+      evs.forEach(event => event.actions = this.actions);
+      this.events = evs;
+      this.refresh.next();
+    });
+  }
 
   createForm() {
     this.eventForm = this.fb.group({
@@ -117,36 +124,24 @@ export class CalendarComponent implements OnInit {
     })
   }
 
+
   // *** SERVICE CALL FUNCTIONS
-  // TODO:  implement this in service
+  // TODO:  editEvent()
+  // TODO:  delEvent()
   saveEvent() {
-    const formData = this.eventForm.value;
+    if (this.eventForm.valid) {
+      const formData = this.eventForm.value;
 
-    const newEvent: CalEvent = {
-      title: formData.title as string,
-      type: formData.type as string,
-      start: new Date(formData.start),
-      end: new Date(formData.end),
-      allDay: formData.allDay as boolean
+      const newEvent: CalEvent = {
+        title: formData.title as string,
+        type: formData.type as string,
+        start: new Date(formData.start),
+        end: new Date(formData.end),
+        allDay: formData.allDay as boolean
+      }
+
+      this.calService.saveEvent(newEvent)
     }
-
-    return this.calService.saveEvent(newEvent)
-    // .subscribe(events => {
-    //   events.forEach(event => event.actions = this.actions);
-    //   this.events = events;
-    //   this.refresh.next();
-    // });
-
-    // this.refresh.next();
-  }
-
-  getEvents() {
-    return this.calService.getEvents()
-    // .subscribe(events => {
-    //   events.forEach(event => event.actions = this.actions);
-    //   this.events = events;
-    //   this.refresh.next();
-    // })
   }
   // SERVICE CALL FUNCTIONS ***
 
@@ -162,10 +157,9 @@ export class CalendarComponent implements OnInit {
         this.activeDayIsOpen = true;
       }
     }
-
+    this.viewDate = date;
     // Added this because if no events were on selected date, 
     // it would not change viewDate
-    this.viewDate = date;
 
     // Update form start and end date to match clicked date
     this.eventForm.patchValue({

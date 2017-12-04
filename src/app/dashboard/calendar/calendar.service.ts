@@ -35,32 +35,29 @@ const colors: any = {
   }
 };
 
-// TODO:  refactor http to separate service
-// TODO:  configure as data store.  actions go here, 
-//        can build proper event objects here instead of component
 
 @Injectable()
 export class CalendarService {
   private apiUrl = environment.apiUrl;
-  // public events: CalEvent[] = [];
-  private _events: BehaviorSubject<CalEvent[]> = new BehaviorSubject([]);
+
+  private _events: BehaviorSubject<CalEvent[]> = new BehaviorSubject(new Array<CalEvent>());
   public events: Observable<CalEvent[]> = this._events.asObservable();
+
 
   constructor(
     private http: HttpClient
-  ) { this.getEvents(); }
+  ) { this.getEvents() }
 
 
-  /** GET  all events from server */
+  /** Populate events */
   getEvents(): Observable<any> {
-    let evs: CalEvent[] = [];
     let obs = this.http.get<CalEvent[]>(this.apiUrl + '/api/events')
       .map(events => {
         events.forEach((event: CalEvent) => {
           event.start = new Date(event.start);
           event.end = new Date(event.end) || undefined; // all day events have no end
-          event.color = this.getColor(event.type);
-        })
+          event.color = this.setColor(event.type);
+        });
         return events;
       });
 
@@ -68,29 +65,28 @@ export class CalendarService {
     return obs;
   }
 
-  /** POST  save a new event */
-  saveEvent(ev): void {
-    this.http.post(this.apiUrl + '/api/events', ev)
+  /** Save a new event to database */
+  saveEvent(ev): Observable<any> {
+    let obs = this.http.post(this.apiUrl + '/api/events', ev)
       .map((event: CalEvent) => {
-        let evs: CalEvent[];
-        // Build event to pass to array for view model
-        let ev: CalEvent = {
-          start: new Date(event.start),
-          end: new Date(event.end) || undefined, // all day events have no end
-          allDay: event.allDay,
-          type: event.type,
-          title: event.title,
-          color: this.getColor(event.type),
-        }
-        evs.push(ev);
+        event.start = new Date(event.start);
+        event.end = new Date(event.end) || undefined;
+        event.color = this.setColor(event.type);
 
-        this._events.next(evs)
-        // return this.events;
+        return event;
       });
+
+    obs.subscribe((event: CalEvent) => {
+      let evs: CalEvent[] = this._events.getValue();
+      evs.push(event);
+      this._events.next(evs);
+    });
+
+    return obs
   };
 
-  getColor(evType) {
-    // Set up colors
+  /** Set up event colors */
+  setColor(evType) {
     switch (evType) {
       case 'Volunteer':
         return colors.green;
