@@ -24,6 +24,25 @@
       </div>
     </ng-template>
 
+    <!-- CONFIRM DELETE MODAL -->
+    <ng-template #delModal>
+      <div class="modal-header">
+        <h5 class="modal-title">Are you sure you want to delete this event?</h5>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <div>
+          <p>{{ modalData?.event.title }}
+            <em>({{ modalData?.event.type }})</em>
+          </p>
+          <p>{{ modalData?.event.start | date:'short' }} - {{ modalData?.event.end | date:'short' }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" style="width:50%" (click)="delEvent(modalData?.event);modal.closeAll()">Delete</button>
+        <button type="button" class="btn btn-secondary" style="width:50%" (click)="modal.closeAll()">Cancel</button>
+      </div>
+    </ng-template>
+
     <div class="row text-center">
       <div class="col-md-4">
         <div class="btn-group">

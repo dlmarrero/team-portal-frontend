@@ -62,7 +62,9 @@ import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms'
 
 
 export class CalendarComponent implements OnInit {
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;  // TODO:  remove when no longer necessary
+  @ViewChild('delModal') delModal: TemplateRef<any>;
+  @ViewChild('detailsModal') detailsModal: TemplateRef<any>;
 
   // Set up calendar variables
   view: string = 'month';           // Default view
@@ -78,8 +80,7 @@ export class CalendarComponent implements OnInit {
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       onClick: ({ event }: { event: CalEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        this.confirmDel(event);
       }
     }
   ];
@@ -94,7 +95,7 @@ export class CalendarComponent implements OnInit {
 
   // For testing purposes
   modalData: {
-    action: string;
+    action?: string;
     event: CalEvent;
   };
 
@@ -126,8 +127,6 @@ export class CalendarComponent implements OnInit {
 
 
   // *** SERVICE CALL FUNCTIONS
-  // TODO:  editEvent()
-  // TODO:  delEvent()
   saveEvent() {
     if (this.eventForm.valid) {
       const formData = this.eventForm.value;
@@ -142,6 +141,10 @@ export class CalendarComponent implements OnInit {
 
       this.calService.saveEvent(newEvent)
     }
+  }
+
+  delEvent(ev: CalEvent) {
+    this.calService.delEvent(ev)
   }
   // SERVICE CALL FUNCTIONS ***
 
@@ -179,7 +182,12 @@ export class CalendarComponent implements OnInit {
     this.refresh.next();
   }
 
-  // TODO:  convert this to edit/delete event
+  confirmDel(event: CalEvent): void {
+    this.modalData = { event };
+    this.modal.open(this.delModal);
+  }
+
+  // TODO:  remove when no longer needed
   handleEvent(action: string, event: CalEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent);

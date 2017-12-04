@@ -38,7 +38,7 @@ const colors: any = {
 
 @Injectable()
 export class CalendarService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl + '/api/events/';
 
   private _events: BehaviorSubject<CalEvent[]> = new BehaviorSubject(new Array<CalEvent>());
   public events: Observable<CalEvent[]> = this._events.asObservable();
@@ -51,7 +51,7 @@ export class CalendarService {
 
   /** Populate events */
   getEvents(): Observable<any> {
-    let obs = this.http.get<CalEvent[]>(this.apiUrl + '/api/events')
+    let obs = this.http.get<CalEvent[]>(this.apiUrl)
       .map(events => {
         events.forEach((event: CalEvent) => {
           event.start = new Date(event.start);
@@ -66,8 +66,8 @@ export class CalendarService {
   }
 
   /** Save a new event to database */
-  saveEvent(ev): Observable<any> {
-    let obs = this.http.post(this.apiUrl + '/api/events', ev)
+  saveEvent(ev: CalEvent): Observable<any> {
+    let obs = this.http.post(this.apiUrl, ev)
       .map((event: CalEvent) => {
         event.start = new Date(event.start);
         event.end = new Date(event.end) || undefined;
@@ -84,6 +84,15 @@ export class CalendarService {
 
     return obs
   };
+
+  /** Delete an event */
+  delEvent(deletedEv: CalEvent): Observable<any> {
+    let obs = this.http.delete(this.apiUrl + deletedEv.id.toString())
+    obs.subscribe((event: CalEvent) => {
+      this._events.next(this._events.getValue().filter(iEvent => iEvent !== deletedEv));
+    });
+    return obs;
+  }
 
   /** Set up event colors */
   setColor(evType) {
