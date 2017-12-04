@@ -189,8 +189,13 @@ export class CalendarComponent implements OnInit {
 
   // TODO:  remove when no longer needed
   handleEvent(action: string, event: CalEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent);
+    if (action === 'Clicked') {
+      this.modalData = { event };
+      this.modal.open(this.detailsModal)
+    } else {
+      this.modalData = { event, action };
+      this.modal.open(this.modalContent);
+    }
   }
   // EVENT HANDLERS ***
 }
