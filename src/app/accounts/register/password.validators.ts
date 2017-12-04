@@ -5,6 +5,7 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 export class PasswordValidators {
     static cannotContainSpace(control:AbstractControl) : ValidationErrors | null {
         if ((control.value as string).indexOf(' ') >=0)
+<<<<<<< HEAD
             return { cannotContainSpace: false };
             
     }
@@ -97,3 +98,8 @@ export class PasswordValidators {
         return null;
     }
 } 
+=======
+            return { cannotContainSpace: false }
+    }
+}
+>>>>>>> calendar

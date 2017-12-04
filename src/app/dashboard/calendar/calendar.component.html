@@ -1,0 +1,246 @@
+<div class="card">
+  <div class="card-body">
+
+    <!-- MODAL FOR TESTING PURPOSES -->
+    <ng-template #modalContent let-close="close">
+      <div class="modal-header">
+        <h5 class="modal-title">Event action occurred</h5>
+        <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          Action:
+          <pre>{{ modalData?.action }}</pre>
+        </div>
+        <div>
+          Event:
+          <pre>{{ modalData?.event | json }}</pre>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+      </div>
+    </ng-template>
+
+    <!-- CONFIRM DELETE MODAL -->
+    <ng-template #delModal>
+      <div class="modal-header" style="text-align:center">
+        <h5 class="modal-title">Are you sure you want to delete this event?</h5>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <div>
+          <p>{{ modalData?.event.title }}
+            <em>({{ modalData?.event.type }})</em>
+          </p>
+          <p>{{ modalData?.event.start | date:'short' }} - {{ modalData?.event.end | date:'short' }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" style="width:50%" (click)="delEvent(modalData?.event);modal.closeAll()">Delete</button>
+        <button type="button" class="btn btn-secondary" style="width:50%" (click)="modal.closeAll()">Cancel</button>
+      </div>
+    </ng-template>
+
+    <!-- DETAILS MODAL -->
+    <ng-template #detailsModal>
+      <div class="modal-header" style="text-align:center">
+        <h5 class="modal-title">Event Details</h5>
+      </div>
+      <div class="modal-body" style="text-align:center">
+        <div>
+          <p>{{ modalData.event.title }}
+            <em>({{ modalData.event.type }})</em>
+          </p>
+          <p>{{ modalData.event.start | date:'short' }} - {{ modalData?.event.end | date:'short' }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" style="width:100%" (click)="editEvent(modalData.event);modal.closeAll()">Edit</button>
+        <button type="button" class="btn btn-danger" style="width:100%" (click)="confirmDel(modalData.event)">Delete</button>
+        <button type="button" class="btn btn-secondary" style="width:100%" (click)="modal.closeAll()">Close</button>
+      </div>
+    </ng-template>
+
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="btn-group">
+          <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+            Previous
+          </div>
+          <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+            Today
+          </div>
+          <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="activeDayIsOpen = false">
+            Next
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      </div>
+      <div class="col-md-4">
+        <div class="btn-group">
+          <div class="btn btn-primary" (click)="view = 'month'" [class.active]="view === 'month'">
+            Month
+          </div>
+          <div class="btn btn-primary" (click)="view = 'week'" [class.active]="view === 'week'">
+            Week
+          </div>
+          <div class="btn btn-primary" (click)="view = 'day'" [class.active]="view === 'day'">
+            Day
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1" style="position:absolute;right:10px">
+        <button mat-button color="primary" style="border:none;outline:none" (click)="showAdd = true">
+          <!-- TODO:  make this bigger -->
+          <i class="material-icons ">add</i>
+        </button>
+      </div>
+    </div>
+    <br>
+    <div class="cal-row">
+      <div class="cal-view" [ngSwitch]="view">
+        <mwl-calendar-month-view *ngSwitchCase=" 'month' " [viewDate]="viewDate " [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen "
+          (dayClicked)="dayClicked($event.day) " (eventClicked)="handleEvent( 'Clicked', $event.event)
+        " (eventTimesChanged)="eventTimesChanged($event) ">
+        </mwl-calendar-month-view>
+        <mwl-calendar-week-view *ngSwitchCase=" 'week' " [viewDate]="viewDate " [events]="events " [refresh]="refresh" (eventClicked)="handleEvent( 'Clicked', $event.event) "
+          (eventTimesChanged)="eventTimesChanged($event) ">
+        </mwl-calendar-week-view>
+        <mwl-calendar-day-view *ngSwitchCase=" 'day' " [viewDate]="viewDate " [events]="events " [refresh]="refresh" (eventClicked)="handleEvent( 'Clicked', $event.event) "
+          (eventTimesChanged)="eventTimesChanged($event) ">
+        </mwl-calendar-day-view>
+      </div>
+
+      <!-- EVENT ADD PANEL -->
+      <div *ngIf="showAdd" class="cal-add">
+        <h4>Create New Event</h4>
+        <hr>
+        <form [formGroup]="createForm" (ngSubmit)="saveEvent()" style="font-size:16px" novalidate>
+          <!-- TODO:  set focus to title input on open -->
+          <mat-form-field style="width:100%">
+            <input matInput placeholder="Title" formControlName="title" name="title" required autofocus>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%">
+            <mat-select placeholder="Type" formControlName="type" name="type" required>
+              <mat-option *ngFor="let type of eventTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <mat-form-field style="width:100%;padding-bottom:20px">
+            <input matInput [matDatepicker]="start" placeholder="Start Date/Time" formControlName="start" name="start" required>
+            <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+            <mat-datepicker #start></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="createForm.get('allDay').value">
+            <input matInput [matDatepicker]="end" placeholder="End Date/Time" formControlName="end" name="end">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-checkbox matInput formControlName="allDay" name="allDay">All day</mat-checkbox>
+          <br>
+          <br>
+          <button mat-fab type="submit">Submit</button>
+          <br>
+          <br>
+          <button mat-button (click)="showAdd=false">Done</button>
+        </form>
+      </div>
+
+      <!-- EVENT EDIT PANEL -->
+      <!-- <div *ngIf="showEdit" class="cal-add">
+        <h4>Edit Event</h4>
+        <hr>
+        <form [formGroup]="editForm" (ngSubmit)="updateEvent()" style="font-size:16px" novalidate> -->
+      <!-- TODO:  set focus to title input on open -->
+      <!-- <mat-form-field style="width:100%">
+            <input matInput placeholder="Title" formControlName="title" name="title" required autofocus>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%">
+            <mat-select placeholder="Type" formControlName="type" name="type" required>
+              <mat-option *ngFor="let type of eventTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <mat-form-field style="width:100%;padding-bottom:20px">
+            <input matInput [matDatepicker]="start" placeholder="Start Date/Time" formControlName="start" name="start" required>
+            <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+            <mat-datepicker #start></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="editForm.get('allDay').value">
+            <input matInput [matDatepicker]="end" placeholder="End Date/Time" formControlName="end" name="end">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-checkbox matInput formControlName="allDay" name="allDay">All day</mat-checkbox>
+          <br>
+          <br>
+          <button mat-fab type="submit">Submit</button>
+          <br>
+          <br>
+          <button mat-button (click)="showEdit=false">Done</button>
+        </form>
+      </div> -->
+
+      <!-- EVENT EDIT PANEL (TEMPLATE DRIVEN) -->
+      <div *ngIf="showEdit" class="cal-add">
+        <h4>Edit Event</h4>
+        <hr>
+        <form #editForm="ngForm" (ngSubmit)="updateEvent()" style="font-size:16px" novalidate>
+          <!-- TODO:  set focus to title input on open -->
+          <mat-form-field style="width:100%">
+            <input matInput placeholder="Title" [(ngModel)]="updatedEv.title" name="title" required autofocus>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%">
+            <mat-select placeholder="Type" [(ngModel)]="updatedEv.type" name="type" required>
+              <mat-option *ngFor="let type of eventTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <hr>
+          <mat-form-field style="width:100%;padding-bottom:20px">
+            <input matInput [matDatepicker]="start" placeholder="Start Date/Time" [(ngModel)]="updatedEv.start" name="start" required>
+            <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+            <mat-datepicker #start></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="width:100%;padding-bottom:20px" [hidden]="updatedEv.allDay">
+            <input matInput [matDatepicker]="end" placeholder="End Date/Time" [(ngModel)]="updatedEv.end" name="end">
+            <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+            <mat-datepicker #end></mat-datepicker>
+            <mat-hint>yy/MMM/dd HH:MM</mat-hint>
+          </mat-form-field>
+          <br>
+          <mat-checkbox matInput [(ngModel)]="updatedEv.allDay" name="allDay">All day</mat-checkbox>
+          <br>
+          <br>
+          <button mat-fab type="submit">Submit</button>
+          <br>
+          <br>
+          <button mat-button (click)="showEdit=false">Done</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

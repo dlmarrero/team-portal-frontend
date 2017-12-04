@@ -1,0 +1,20 @@
+.cal-row {
+    display: flex;
+    flex-direction: row;
+}
+.cal-view {
+    flex-grow: 5;
+}
+.cal-add {
+    text-align: center;
+    flex-grow: 1;
+    max-width: 300px;
+    padding-top: 20px;
+    padding-left: 10px;
+    border-style: solid;
+    border: 0;
+    border-left: 2px;
+}
+.cal-add > * {
+    width: 100%;
+}

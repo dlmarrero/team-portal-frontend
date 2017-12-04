@@ -11,7 +11,10 @@ import { LoginData } from "app/models/login-data.model";
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { error } from 'util';
 import { PasswordValidators } from 'app/accounts/register/password.validators';
+<<<<<<< HEAD
 import { matchOtherValidator } from 'app/accounts/register/password.function';
+=======
+>>>>>>> calendar
 
 @Component({
   selector: 'app-register',
@@ -42,6 +45,7 @@ export class RegisterComponent implements OnInit {
 
   createForms() {
     this.accountFormGroup = this._formBuilder.group({
+<<<<<<< HEAD
       rate: ['', 
       [Validators.required, 
         Validators.pattern("(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$")]],
@@ -62,6 +66,17 @@ export class RegisterComponent implements OnInit {
   });
     
     
+=======
+      rate: ['', [Validators.required, Validators.pattern("[a-z,A-Z]{2,3}-?[1-9]")]],
+      rank: ['', Validators.required],
+      fname: ['', Validators.required],
+      lname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, PasswordValidators.cannotContainSpace]],
+      confirmpw: ['', Validators.required]
+    });
+
+>>>>>>> calendar
     this.recallFormGroup = this._formBuilder.group({
       street: ['', Validators.required],
       city: ['', Validators.required],
