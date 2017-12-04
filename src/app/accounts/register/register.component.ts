@@ -1,13 +1,17 @@
+import { arrayify } from 'tslint/lib/utils';
+import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'app/services/account.service';
 import { MessageService } from 'app/services/message.service';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AsyncValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { RegistrationData } from "app/models/registration-data.model";
 import { LoginData } from "app/models/login-data.model";
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { error } from 'util';
+import { PasswordValidators } from 'app/accounts/register/password.validators';
+import { matchOtherValidator } from 'app/accounts/register/password.function';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +30,7 @@ export class RegisterComponent implements OnInit {
   accountFormGroup: FormGroup;
   recallFormGroup: FormGroup;
   adminFormGroup: FormGroup;
+  passChecker:boolean = true;
 
   constructor(private _formBuilder: FormBuilder,
     private accountService: AccountService,
@@ -37,21 +42,32 @@ export class RegisterComponent implements OnInit {
 
   createForms() {
     this.accountFormGroup = this._formBuilder.group({
-      rate: ['', Validators.required],
+      rate: ['', 
+      [Validators.required, 
+        Validators.pattern("(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$")]],
       rank: ['', Validators.required],
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmpw: ['', Validators.required]
-    });
-
+      fname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
+      lname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', 
+        [Validators.required, 
+        PasswordValidators.cannotContainSpace, 
+        PasswordValidators.passwordComplexity, 
+        Validators.minLength(6),
+        PasswordValidators.lowerCharacter,
+        PasswordValidators.upperCharacter,
+        PasswordValidators.numberCharacter,
+      ]],
+      confirmpw: ['', [Validators.required, matchOtherValidator('password')]],
+  });
+    
+    
     this.recallFormGroup = this._formBuilder.group({
       street: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zip: ['', Validators.required],
-      phone: ['', Validators.required]
+      zip: ['', [Validators.required,Validators.pattern('^[0-9]{5}$')]],
+      phone: ['', [Validators.required, Validators.pattern("[2-9]([0-9]{9})")]]
     });
 
     this.adminFormGroup = this._formBuilder.group({
@@ -61,15 +77,79 @@ export class RegisterComponent implements OnInit {
       prd: ['', Validators.required],
       report: ['', Validators.required],
       tir: ['', Validators.required],
-      uic: ['', Validators.required],
+      uic: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       command: ['', Validators.required],
       bluebadge: [false, Validators.required]
     });
   }
 
+  touchPassword () {
+    var validCheck = this.accountFormGroup.get('password').status;
+    if (validCheck === "")
+      return true;
+    else
+      return false;
+  }
+  specCharPassword() {
+    var validCheck = this.accountFormGroup.get('password').value as string;
+    var breakLoop: boolean = false;
+    var specChar = ("!`@~#$%^&*()_-\\+=<>?:\"{}|\]{\';,./").split("");
+    specChar.forEach(char => {
+      (validCheck.split("")).forEach(valch => {
+        if (char === valch){
+          breakLoop = true;
+        }
+      });
+    });
+    return breakLoop;
+  }
+
+  upperCharPassword() {
+    var validCheck = this.accountFormGroup.get('password').value as string;
+    var breakLoop: boolean = false;
+    var upperChar = ("QWERTYUIOPASDFGHJKLZXCVBNM").split("");
+    upperChar.forEach(char => {
+      (validCheck.split("")).forEach(valch => {
+        if (char === valch){
+          breakLoop = true;
+        }
+      });
+    });
+    return breakLoop;
+  }
+
+  lowerCharPassword() {
+    var validCheck = this.accountFormGroup.get('password').value as string;
+    var breakLoop: boolean = false;
+    var lowerChar = ("qwertyuiopasdfghjklzxcvbnm").split("");
+    lowerChar.forEach(char => {
+      (validCheck.split("")).forEach(valch => {
+        if (char === valch){
+          breakLoop = true;
+        }
+      });
+    });
+    return breakLoop;
+  }
+
+  numberCharPassword() {
+    var validCheck = this.accountFormGroup.get('password').value as string;
+    var breakLoop: boolean = false;
+    var numberChar = ("0123456789").split("");
+    numberChar.forEach(char => {
+      (validCheck.split("")).forEach(valch => {
+        if (char === valch){
+          breakLoop = true;
+        }
+      });
+    });
+    return breakLoop;
+  }
+  
   signUp() {
     if (this.recallFormGroup.valid && this.accountFormGroup.valid && this.adminFormGroup.valid) {
-      this.registration = this.prepareRegistration();
+       (this.adminFormGroup.value);
+      console.log(this.registration);
       this.accountService.register(this.registration)
         .subscribe(data => {
           this.messageService.add('Regisration successful!  Logging you in...', true)
