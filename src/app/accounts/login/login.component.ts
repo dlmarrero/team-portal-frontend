@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AccountService } from "app/accounts/account.service";
-import { MessageService } from 'app/services/message.service';
+import { AuthService } from "app/core/services/auth.service";
+import { MessageService } from 'app/core/services/message.service';
+import { MessageComponent } from "app/core/components/message.component";
 
 
 @Component({
@@ -10,7 +11,7 @@ import { MessageService } from 'app/services/message.service';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private accountService: AccountService,
+    private AuthService: AuthService,
     public messageService: MessageService) { }
 
   loginData = {
@@ -22,6 +23,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.accountService.login(this.loginData);
+    this.AuthService.login(this.loginData);
   };
 }

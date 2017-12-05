@@ -1,8 +1,8 @@
 import { arrayify } from 'tslint/lib/utils';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from 'app/accounts/account.service';
-import { MessageService } from 'app/services/message.service';
+import { AuthService } from 'app/core/services/auth.service';
+import { MessageService } from 'app/core/services/message.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
   passChecker:boolean = true;
 
   constructor(private _formBuilder: FormBuilder,
-    private accountService: AccountService,
+    private AuthService: AuthService,
     private messageService: MessageService) { }
 
   ngOnInit() {
@@ -148,7 +148,7 @@ export class RegisterComponent implements OnInit {
   
   signUp() {
     if (this.recallFormGroup.valid && this.accountFormGroup.valid && this.adminFormGroup.valid) {
-      this.accountService.register(this.registration)
+      this.AuthService.register(this.registration)
         .subscribe(data => {
           this.messageService.add('Regisration successful!  Logging you in...', true)
           this.forwardToLogin(this.registration);
@@ -208,6 +208,6 @@ export class RegisterComponent implements OnInit {
       password: registrationData.password
     };
 
-    this.accountService.login(loginData);
+    this.AuthService.login(loginData);
   }
 }

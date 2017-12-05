@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { MessageService } from "../services/message.service";
-import { AuthData } from '../models/login-data.model';
+import { MessageService } from "app/core/services/message.service";
+import { AuthData } from 'app/models/login-data.model';
 import { environment } from 'environments/environment';
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { Router } from '@angular/router';
@@ -18,43 +19,30 @@ const httpOptions = {
 };
 
 @Injectable()
-export class AccountService {
+export class AuthService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) { this.getAuthData() }
 
   private apiUrl = environment.apiUrl;
 
-  public authData: AuthData = {
+  private _authData: BehaviorSubject<AuthData> = new BehaviorSubject<AuthData>({
     isAuth: false,
     userName: undefined
-  };
+  });
+  public authData: Observable<AuthData> = this._authData.asObservable();
 
-  getAuthData(): Observable<any> {
-    if (this.authData.userName === undefined) {
-      let currentUser = localStorage.getItem('currentUser');
-      if (currentUser) {
-        this.authData.isAuth = true;
-        this.authData.userName = currentUser;
-      }
-    };
-    return of(this.authData);
-  };
+  getAuthData(): void {
+    // Check if user has a token in local storage
+    let currentUser = localStorage.getItem('currentUser');
 
-
-  // TODO:  use guid for this api endpoint instead
-  // TODO:  move this to a shared service (core module)
-  /** GET userData from server */
-  getUserData(): Observable<any> {
-    if (this.authData.isAuth) {
-      return this.http.get(this.apiUrl + '/api/account?username=' + this.authData.userName)
-    } else {
-      return of({});
+    // If so, initialize authData
+    if (currentUser) {  // TODO:  make sure this behaves as expected if !currentUser
+      this.auth(currentUser);
     }
   }
-
 
   login(loginData) {
 
@@ -66,8 +54,7 @@ export class AccountService {
           this.log('Login Successful...', true)
           localStorage.setItem('jwt', data['access_token']);
           localStorage.setItem('currentUser', loginData.userName);
-          this.authData.isAuth = true;
-          this.authData.userName = loginData.userName;
+          this.auth(loginData.userName);
           this.router.navigate(['/dashboard']);
           this.messageService.clear();
         } catch (error) {
@@ -75,8 +62,7 @@ export class AccountService {
         }
       }, (err: HttpErrorResponse) => {
         this.log(err.error.error_description, false);
-        this.authData.isAuth = false;
-        this.authData.userName = "";
+        this.deauth();
       });
   };
 
@@ -85,8 +71,7 @@ export class AccountService {
     localStorage.removeItem('jwt');
     localStorage.removeItem('currentUser');
 
-    this.authData.isAuth = false;
-    this.authData.userName = undefined;
+    this.deauth();
 
     this.router.navigate(['./login']);
   }
@@ -103,6 +88,20 @@ export class AccountService {
   };
 
   ///////////// HELPER FUNCTIONS ////////////////
+
+  private auth(userName) {
+    this._authData.next({
+      isAuth: true,
+      userName: userName
+    });
+  }
+
+  private deauth() {
+    this._authData.next({
+      isAuth: false,
+      userName: undefined
+    });
+  }
 
   // TODO:  nuke this... not being used.
   private errorHandler(err) {

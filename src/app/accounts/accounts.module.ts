@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AccountRoutingModule } from 'app/accounts/account-routing.module';
 import { MaterialModule } from "app/material/material.module";
+import { CoreModule } from "app/core/core.module"
 
-import { AccountService } from "./account.service";
-import { MessageService } from 'app/services/message.service';
+import { AuthService } from "app/core/services/auth.service";
+import { MessageService } from 'app/core/services/message.service';
 
 import { LoginComponent } from 'app/accounts/login/login.component';
-import { MessageComponent } from 'app/services/message.component';
 import { RegisterComponent } from 'app/accounts/register/register.component';
 
 
@@ -18,10 +18,11 @@ import { RegisterComponent } from 'app/accounts/register/register.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    AccountRoutingModule
+    AccountRoutingModule,
+    CoreModule
   ],
-  declarations: [LoginComponent, MessageComponent, RegisterComponent],
+  declarations: [LoginComponent, RegisterComponent],
   exports: [LoginComponent, RegisterComponent],
-  providers: [AccountService, MessageService]
+  providers: [AuthService, MessageService]
 })
 export class AccountsModule { }

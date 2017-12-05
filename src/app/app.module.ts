@@ -4,10 +4,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
-import { AccountsModule } from "./accounts/accounts.module";
-
+import { AccountsModule } from "./accounts/accounts.module"; // TODO:  move this to be lazy loaded
+import { CoreModule } from './core/core.module';
+import { AppAsideModule } from './components/app-aside/app-aside.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
+
+// Import 3rd party components
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 
 // Import containers
 import {
@@ -22,7 +29,7 @@ const APP_CONTAINERS = [
 
 // Import components
 import {
-  AppAsideComponent,
+  AppAsideComponent, 
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -31,11 +38,11 @@ import {
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
-  APP_SIDEBAR_NAV
+  APP_SIDEBAR_NAV,
+  // TodoComponent,
 } from './components';
 
 const APP_COMPONENTS = [
-  AppAsideComponent,
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -44,7 +51,7 @@ const APP_COMPONENTS = [
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
-  APP_SIDEBAR_NAV
+  APP_SIDEBAR_NAV,
 ]
 
 // Import directives
@@ -62,41 +69,35 @@ const APP_DIRECTIVES = [
   SIDEBAR_TOGGLE_DIRECTIVES
 ]
 
-// Import routing module
-import { AppRoutingModule } from './app.routing';
-
-// Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { AuthGuard } from 'app/guards/auth.guard';
-import { AuthInterceptor } from './services/authinterceptor.service';
-
 
 @NgModule({
   imports: [
     BrowserModule,
+    CoreModule,
     AppRoutingModule,
     HttpClientModule,
+    AppAsideModule,
     AccountsModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   declarations: [
+    AppAsideComponent, 
     AppComponent,
+    // TodoComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
-    
+
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  },
-    AuthGuard,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

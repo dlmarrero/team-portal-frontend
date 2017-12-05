@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AccountService } from 'app/accounts/account.service';
+import { AuthService } from 'app/core/services/auth.service';
+import { UserDataService } from "app/core/services/user-data.service";
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -7,38 +8,13 @@ import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
   templateUrl: './app-header.component.html'
 })
 
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent {
   constructor(
-    private accountService: AccountService
+    private authService: AuthService,
+    private userDataService: UserDataService
   ) { }
 
-  user = {
-    authentication: {
-      isAuth: undefined,
-      userName: undefined
-    },
-    data: {}
-  };
-
-  test = true;
-
-  ngOnInit() {
-    this.getAuthData();
-    this.getUserData();
-    // if (!this.user.authentication.isAuth) {
-    //   this.logOut();
-    // }
-  }
-
-  getAuthData() {
-    return this.accountService.getAuthData().subscribe(data => this.user.authentication = data);
-  }
-
-  getUserData() {
-    return this.accountService.getUserData().subscribe(data => this.user.data = data);
-  }
-
   logOut() {
-    this.accountService.logOut();
+    this.authService.logOut();
   }
 }

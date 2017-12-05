@@ -1,0 +1,87 @@
+<!-- <div> -->
+<button type="button" class="btn btn-info btn-block" style="color:white" (click)="showAdd=true">
+    <i class="fa fa-check-square-o"></i>&nbsp; New ToDo
+</button>
+<!-- </div> -->
+<div *ngIf="showAdd">
+    <form #toDoForm="ngForm" novalidate>
+        <div class="form-group container" style="padding-top: 10px">
+            <a href="#" class="float-right" (click)="showAdd=false">
+                <i class="fa fa-close"></i>
+            </a>
+            <label for="toDoItem" style="padding-top: 5px">To Do:</label>
+            <input type="text" name="toDoItem" id="toDoItem" class="form-control" [(ngModel)]="newToDo.toDoItem" name="toDoItem" placeholder="What do you need to do?"
+                required>
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="form-group container">
+            <label for="dueDate" style="padding-top: 5px">Date:</label>
+            <input type="date" name="dueDate" class="form-control" [(ngModel)]="newToDo.dueDate" name="dueDate">
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="form-group container">
+            <label for="dueDate" style="padding-top: 5px">Time:</label>
+            <input type="text" name="dueDate" class="form-control" [(ngModel)]="newToDo.time" name="time">
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="form-group container">
+            <label for="dueDate" style="padding-top: 5px">Priority:</label>
+            <br>
+            <label>
+                <input type="radio" [(ngModel)]="newToDo.priority" name="priorityHi" value="high">&nbsp;High</label>
+            <label>
+                <input type="radio" [(ngModel)]="newToDo.priority" name="priorityMd" value="medium">&nbsp;Medium</label>
+            <label>
+                <input type="radio" [(ngModel)]="newToDo.priority" name="priorityLo" value="low" selected>&nbsp;Low</label>
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-success" (click)="saveToDo()" [disabled]="toDoForm.invalid">
+                <i class="fa fa-plus"></i>&nbsp; Add ToDo</button>
+        </div>
+    </form>
+    <br>
+    <hr class="mx-3 my-0">
+</div>
+<!-- TO DO LIST  -->
+<!--  *ngIf="userDataService.todos | async; let toDo; else loading" -->
+<!-- <div class="container" ng-show="!toDo.authed" align="center">
+  <p class="text-muted"><br><br>Please log in to create<br>and view your ToDo list.</p>
+</div>
+<div ng-show="toDo.toDos.length == 0  && toDo.authed && !toDo.showAdd" class="container" align="center">
+  <br><br>
+  <p class="text-muted">You do not have anything<br>on your ToDo list.<br>Click "New ToDo" to begin.</p>
+</div>
+<div ng-if="toDo.authed" ng-repeat="td in toDo.toDos | orderBy: ['dueDate', 'time']"> -->
+<!-- THREE DIVS CAN COLLAPSE TO ONE WITH PROPER NG-CLASS STATEMENT  -->
+<!-- <div class="callout callout-danger m-0 py-3" ng-show="td.priority == 'high'">
+      <div>
+          {{td.toDoItem}}
+          <span class="float-right"><a href="#" ng-click="toDo.delToDo(td.id)"><i class="fa fa-close text-muted"></i></a></span>
+      </div>
+      <div ng-show="td.dueDate">
+          <small class="mr-3"><i class="icon-calendar"></i>&nbsp; {{td.dueDate | date:'MM/dd/yyyy'}}</small>
+          <small class="mr-3" ng-show="td.time"><i class="fa fa-clock-o"></i>&nbsp; {{td.time}}</small>
+      </div>
+  </div>
+  <div class="callout callout-warning m-0 py-3" ng-show="td.priority == 'medium'">
+      <div>
+          {{td.toDoItem}}
+          <span class="float-right"><a href="#" ng-click="toDo.delToDo(td.id)"><i class="fa fa-close text-muted"></i></a></span>
+      </div>
+      <div ng-show="td.dueDate">
+          <small class="mr-3"><i class="icon-calendar"></i>&nbsp; {{td.dueDate | date:'MM/dd/yyyy'}}</small>
+          <small class="mr-3" ng-show="td.time"><i class="fa fa-clock-o"></i>&nbsp; {{td.time}}</small>
+      </div>
+  </div>
+  <div class="callout callout-success m-0 py-3" ng-show="td.priority == 'low'">
+      <div>
+          {{td.toDoItem}}
+          <span class="float-right"><a href="#" ng-click="toDo.delToDo(td.id)"><i class="fa fa-close text-muted"></i></a></span>
+      </div>
+      <div ng-show="td.dueDate">
+          <small class="mr-3"><i class="icon-calendar"></i>&nbsp; {{td.dueDate | date:'MM/dd/yyyy'}}</small>
+          <small class="mr-3" ng-show="td.time"><i class="fa fa-clock-o"></i>&nbsp; {{td.time}}</small>
+      </div>
+  </div>
+  <hr class="mx-3 my-0">
+</div> -->
