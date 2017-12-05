@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AccountService } from 'app/services/account.service';
+import { AccountService } from 'app/accounts/account.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
