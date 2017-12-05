@@ -1,7 +1,7 @@
 import { arrayify } from 'tslint/lib/utils';
 import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from 'app/services/account.service';
+import { AccountService } from 'app/accounts/account.service';
 import { MessageService } from 'app/services/message.service';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
