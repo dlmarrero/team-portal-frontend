@@ -3,13 +3,8 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 
 export class PasswordValidators {
-<<<<<<< HEAD
     static cannotContainSpace(control:AbstractControl) : ValidationErrors | null {
         if ((control.value as string).indexOf(' ') >=0)
-=======
-    static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
-        if ((control.value as string).indexOf(' ') >= 0)
->>>>>>> a72763a84b0429efed2069b3b6763321aa028dc5
             return { cannotContainSpace: false };
 
     }

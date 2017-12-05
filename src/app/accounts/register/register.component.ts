@@ -11,11 +11,7 @@ import { LoginData } from "app/models/login-data.model";
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { error } from 'util';
 import { PasswordValidators } from 'app/accounts/register/password.validators';
-<<<<<<< HEAD
 import { matchOtherValidator } from 'app/accounts/register/match-other.validator';
-=======
-import { matchOtherValidator } from 'app/accounts/register/password.function';
->>>>>>> a72763a84b0429efed2069b3b6763321aa028dc5
 
 @Component({
   selector: 'app-register',
