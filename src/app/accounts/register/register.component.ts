@@ -4,14 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'app/services/account.service';
 import { MessageService } from 'app/services/message.service';
 
-import { AsyncValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { RegistrationData } from "app/models/registration-data.model";
 import { LoginData } from "app/models/login-data.model";
 import { HttpErrorResponse } from '@angular/common/http/src/response';
 import { error } from 'util';
 import { PasswordValidators } from 'app/accounts/register/password.validators';
-import { matchOtherValidator } from 'app/accounts/register/password.function';
+import { matchOtherValidator } from 'app/accounts/register/match-other.validator';
 
 @Component({
   selector: 'app-register',
@@ -148,8 +148,6 @@ export class RegisterComponent implements OnInit {
   
   signUp() {
     if (this.recallFormGroup.valid && this.accountFormGroup.valid && this.adminFormGroup.valid) {
-       (this.adminFormGroup.value);
-      console.log(this.registration);
       this.accountService.register(this.registration)
         .subscribe(data => {
           this.messageService.add('Regisration successful!  Logging you in...', true)

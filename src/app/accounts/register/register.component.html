@@ -72,7 +72,7 @@
               </mat-step>
               <!-- RECALL FORM GROUP -->
               <mat-step [stepControl]="recallFormGroup">
-                <form [formGroup]="recallFormGroup" validate>
+                <form [formGroup]="recallFormGroup" novalidate>
                   <ng-template matStepLabel>Recall Information</ng-template>
                   <div style="min-height:300px">
                     <mat-form-field>
@@ -89,7 +89,7 @@
                     <mat-form-field>
                       <input matInput placeholder="Zip Code" formControlName="zip" id="zip" name="zip">
                     </mat-form-field>
-                    <mat-form-field hintLabel="i.e. 0000000000">
+                    <mat-form-field hintLabel="i.e. 5551234567">
                       <input matInput placeholder="Phone" formControlName="phone" type="tel" id="phone" name="phone">
                     </mat-form-field>
                     <div>

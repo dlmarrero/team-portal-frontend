@@ -70,7 +70,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { AuthGuard } from 'app/guards/auth.guard';
-import { AlphaRosterModule } from 'app/views/alpha-roster/alpha-roster.module';
 import { AuthInterceptor } from './services/authinterceptor.service';
 
 
@@ -84,7 +83,6 @@ import { AuthInterceptor } from './services/authinterceptor.service';
     TabsModule.forRoot(),
     ChartsModule,
     BrowserAnimationsModule,
-    AlphaRosterModule
   ],
   declarations: [
     AppComponent,
