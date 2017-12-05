@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'app/services/message.service';
 
+// TODO:  conver this to present toast messages
+
 @Component({
   selector: 'app-messages',
   template: `

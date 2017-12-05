@@ -44,6 +44,8 @@ export class AccountService {
   };
 
 
+  // TODO:  use guid for this api endpoint instead
+  // TODO:  move this to a shared service (core module)
   /** GET userData from server */
   getUserData(): Observable<any> {
     if (this.authData.isAuth) {
