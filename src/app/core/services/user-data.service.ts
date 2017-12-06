@@ -20,7 +20,6 @@ export class UserDataService {
 
   constructor(
     private authService: AuthService,
-    // private todoService: TodoService,
     private http: HttpClient
   ) {
     this.authService.authData.subscribe((authData: AuthData) => {
@@ -34,7 +33,6 @@ export class UserDataService {
     let obs = this.http.get(this.apiUrl + '/api/account?username=' + userName);
     obs.subscribe((data: User) => {
       this._userData.next(data);
-      // this.todoService.getToDos(data.id)
     });
     return obs;
   }

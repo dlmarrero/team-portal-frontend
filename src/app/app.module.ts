@@ -39,7 +39,6 @@ import {
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
   APP_SIDEBAR_NAV,
-  // TodoComponent,
 } from './components';
 
 const APP_COMPONENTS = [
@@ -86,7 +85,6 @@ const APP_DIRECTIVES = [
   declarations: [
     AppAsideComponent, 
     AppComponent,
-    // TodoComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
