@@ -4,6 +4,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TodoService } from "app/components/app-aside/todo/todo.service";
 import { FormsModule } from '@angular/forms';
 import { TodoComponent } from "./todo/todo.component";
+import { PocsComponent } from './pocs/pocs.component';
+import { PocsService } from './pocs/pocs.service';
 
 
 @NgModule({
@@ -12,8 +14,8 @@ import { TodoComponent } from "./todo/todo.component";
     TabsModule,
     FormsModule
   ],
-  declarations: [ TodoComponent ],
-  providers: [ TodoService ],
-  exports: [ TodoComponent ]
+  declarations: [ TodoComponent, PocsComponent ],
+  providers: [ TodoService, PocsService ],
+  exports: [ TodoComponent, PocsComponent ]
 })
 export class AppAsideModule { }

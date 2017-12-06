@@ -1,0 +1,54 @@
+<div id="pocs">
+  <h6>
+    <span style="padding-top: 30px">Points of Contact</span>
+    <button class="btn btn-success btn-sm float-right" (click)="showAdd=!showAdd" class="float-right" data-toggle="tooltip" title="Add POC"
+      [hidden]="showEdit">
+      <i class="fa fa-plus"></i>
+    </button>
+  </h6>
+  <div [hidden]="!showAdd" id="pocTop" name="pocTop">
+    <hr> Add POC:
+    <form #updateForm="ngForm">
+      <input type="text" class="form-control" [(ngModel)]="newPoc.office" name="office" placeholder="Office">
+      <input type="text" class="form-control" [(ngModel)]="newPoc.name" name="name" placeholder="Contact Rate/Name">
+      <input type="text" class="form-control" [(ngModel)]="newPoc.number" name="number" placeholder="Phone Number">
+      <button type="submit" class="btn btn-success btn-block" (click)="addPoc(newPoc)">
+        <i class="fa fa-save"></i>&nbsp; Save POC</button>
+    </form>
+    <br>
+  </div>
+  <div [hidden]="!showEdit">
+    <hr> Edit POC:
+    <a href="#" class="float-right" (click)="showEdit=false">
+      <i class="fa fa-close"></i>
+    </a>
+    <form #updateForm="ngForm">
+      <input type="text" class="form-control" [(ngModel)]="updatedPoc.office" name="updatedOffice" placeholder="Office">
+      <input type="text" class="form-control" [(ngModel)]="updatedPoc.name" name="updatedName" placeholder="Contact Name">
+      <input type="text" class="form-control" [(ngModel)]="updatedPoc.number" name="updatedNumber" placeholder="Phone Number">
+      <button type="submit" class="btn btn-success btn-block" (click)="updatePoc(updatedPoc)">
+        <i class="fa fa-save"></i>&nbsp; Save Changes</button>
+      <button type="button" class="btn btn-danger btn-block" (click)="deletePoc(updatedPoc)">
+        <i class="fa fa-trash-o"></i>&nbsp; Delete POC</button>
+    </form>
+    <br>
+  </div>
+  <div>
+    <div [hidden]="showEdit || showAdd">
+      <hr>
+      <input [(ngModel)]="searchText" class="form-control" placeholder="Search" />
+    </div>
+    <table class="table table-hover">
+      <tr *ngFor="let contact of pocs$ | async">
+        <td>
+          {{contact.office}}
+          <a href="#" class="text-muted float-right" (click)="toggleEdit(contact)" class="float-right">
+            <i class="fa fa-pencil"></i>
+          </a>
+          <br> {{contact.name}}
+          <br *ngIf="contact.name"> {{contact.number}}
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
