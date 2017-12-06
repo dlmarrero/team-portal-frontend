@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { Todo } from 'app/components/app-aside/todo/todo.model';
 import { TodoService } from 'app/components/app-aside/todo/todo.service';
+import { User } from 'app/core/types/user';
 
 @Injectable()
 export class UserDataService {
@@ -19,7 +20,7 @@ export class UserDataService {
 
   constructor(
     private authService: AuthService,
-    private todoService: TodoService,
+    // private todoService: TodoService,
     private http: HttpClient
   ) {
     this.authService.authData.subscribe((authData: AuthData) => {
@@ -33,32 +34,8 @@ export class UserDataService {
     let obs = this.http.get(this.apiUrl + '/api/account?username=' + userName);
     obs.subscribe((data: User) => {
       this._userData.next(data);
-      this.todoService.update(data.toDos)
+      // this.todoService.getToDos(data.id)
     });
     return obs;
   }
-}
-
-interface User {
-    rate: string;
-    rank: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-    phoneNumber: string;
-    team: string;
-    adsd: Date;
-    heaos: Date;
-    seaos: Date;
-    prd: Date;
-    reportDate: Date;
-    tirDate: Date;
-    blueBadge: boolean;
-    destUIC: string;
-    destCommand: string;
-    toDos: Todo[];
 }
