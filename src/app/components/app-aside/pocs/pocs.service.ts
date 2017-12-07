@@ -32,10 +32,8 @@ export class PocsService {
 
   update(poc: Poc) {
     let pocs: Poc[] = this._pocs.getValue();
-    let index = pocs.indexOf(poc);
     let obs = this.http.put<Poc>(this.apiUrl + `/${poc.id}`, poc);
-    obs.subscribe(poc => {
-      pocs[index] = poc;
+    obs.subscribe(() => {
       this._pocs.next(pocs);
     });
     return obs;
@@ -44,7 +42,7 @@ export class PocsService {
   delete(poc: Poc) {
     let obs = this.http.delete<Poc>(this.apiUrl + `/${poc.id}`);
     obs.subscribe(poc => {
-      this._pocs.next(this._pocs.getValue().filter(iPoc => iPoc !== poc));
+      this._pocs.next(this._pocs.getValue().filter(iPoc => iPoc.id !== poc.id));
     });
     return obs;
   }

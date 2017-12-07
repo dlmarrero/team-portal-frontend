@@ -25,29 +25,51 @@ export class PocsComponent implements OnInit {
   };
   searchText: string;
 
-  // TODO:  sort pocs by office
-  // TODO:  search filter
-  
+  // TODO:  search filter !!!
+  // TODO:  confirmation messages
+  // TODO:  have to click pencil twice for showEdit
+
   constructor(private pocsService: PocsService) { }
 
   ngOnInit() {
-    this.pocs$ = this.pocsService.pocs;
+    this.pocs$ = this.pocsService.pocs
+      .map(pocs => {
+        return this.sortPocs(pocs);
+      });
   }
 
   addPoc(poc: Poc) {
     this.pocsService.save(poc);
+    this.showAdd = false;
   }
 
   updatePoc(poc: Poc) {
     this.pocsService.update(poc);
+    this.showEdit = false;
   }
 
   deletePoc(poc: Poc) {
     this.pocsService.delete(poc);
+    this.showEdit = false;
   }
 
   toggleEdit(poc: Poc) {
+    this.showAdd = false;
     this.showEdit = true;
     this.updatedPoc = poc;
+    document.getElementById("editPoc").scrollIntoView();
+  }
+
+  sortPocs(pocs: Poc[]) {
+    return pocs.sort((p1, p2) => {
+      if (p1.office > p2.office) {
+        return 1;
+      }
+      else if (p1.office < p2.office) {
+        return -1;
+      } else {  
+        return 0;
+      }
+    })
   }
 }

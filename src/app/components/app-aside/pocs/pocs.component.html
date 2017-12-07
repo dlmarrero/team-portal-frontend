@@ -1,13 +1,17 @@
-<div id="pocs">
+<div id="pocs" style="padding:10px">
   <h6>
-    <span style="padding-top: 30px">Points of Contact</span>
-    <button class="btn btn-success btn-sm float-right" (click)="showAdd=!showAdd" class="float-right" data-toggle="tooltip" title="Add POC"
+    <span style="padding-top: 40px">Points of Contact</span>
+    <button class="btn btn-success btn-sm float-right" (click)="showAdd=true" data-toggle="tooltip" title="Add POC"
       [hidden]="showEdit">
       <i class="fa fa-plus"></i>
     </button>
   </h6>
+  <!-- ADD -->
   <div [hidden]="!showAdd" id="pocTop" name="pocTop">
     <hr> Add POC:
+    <a href="#" class="float-right" (click)="showAdd=false">
+      <i class="fa fa-close"></i>
+    </a>
     <form #updateForm="ngForm">
       <input type="text" class="form-control" [(ngModel)]="newPoc.office" name="office" placeholder="Office">
       <input type="text" class="form-control" [(ngModel)]="newPoc.name" name="name" placeholder="Contact Rate/Name">
@@ -17,7 +21,8 @@
     </form>
     <br>
   </div>
-  <div [hidden]="!showEdit">
+  <!-- EDIT -->
+  <div [hidden]="!showEdit" id="editPoc">
     <hr> Edit POC:
     <a href="#" class="float-right" (click)="showEdit=false">
       <i class="fa fa-close"></i>
