@@ -25,9 +25,9 @@ export class PocsComponent implements OnInit {
   };
   searchText: string;
 
-  // TODO:  search filter !!!
   // TODO:  confirmation messages
-  // TODO:  have to click pencil twice for showEdit
+  // TODO:  fix having to click pencil twice for showEdit
+  // TODO:  make tabs fill out (50% each)
 
   constructor(private pocsService: PocsService) { }
 

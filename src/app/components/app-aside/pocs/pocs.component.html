@@ -44,7 +44,8 @@
       <input [(ngModel)]="searchText" class="form-control" placeholder="Search" />
     </div>
     <table class="table table-hover">
-      <tr *ngFor="let contact of pocs$ | async">
+      <!-- <tr *ngFor="let contact of pocs$ | async | filter: searchText:'office':'name'"> -->
+          <tr *ngFor="let contact of pocs$ | async | filter: searchText:['office','name']">
         <td>
           {{contact.office}}
           <a href="#" class="text-muted float-right" (click)="toggleEdit(contact)" class="float-right">

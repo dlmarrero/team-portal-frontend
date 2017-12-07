@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { TodoComponent } from "./todo/todo.component";
 import { PocsComponent } from './pocs/pocs.component';
 import { PocsService } from './pocs/pocs.service';
+import { PocsFilterPipe } from 'app/core/pipes/filters.pipe';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { PocsService } from './pocs/pocs.service';
     TabsModule,
     FormsModule
   ],
-  declarations: [ TodoComponent, PocsComponent ],
+  declarations: [ TodoComponent, PocsComponent, PocsFilterPipe ],
   providers: [ TodoService, PocsService ],
   exports: [ TodoComponent, PocsComponent ]
 })
