@@ -18,14 +18,18 @@ export const routes: Routes = [
   {
     path: '',
     component: FullLayoutComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },
     children: [
       {
         path: 'dashboard',
-        canActivate: [AuthGuard],
         loadChildren: './dashboard/dashboard.module#DashboardModule'
+      },
+      {
+        path: 'projects',
+        loadChildren: './projects/projects.module#ProjectsModule'
       },
       {
         path: 'components',

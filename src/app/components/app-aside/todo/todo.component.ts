@@ -3,8 +3,8 @@ import { TodoService } from "./todo.service";
 import { AuthService } from 'app/core/services/auth.service';
 import { UserDataService } from 'app/core/services/user-data.service';
 import { Todo } from 'app/components/app-aside/todo/todo.model';
-import { map } from 'rxjs/operator/map';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map'
 
 @Component({
   selector: 'app-todo',
