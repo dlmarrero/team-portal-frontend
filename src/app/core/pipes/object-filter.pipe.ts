@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'filter'
 })
-export class PocsFilterPipe implements PipeTransform {
+export class ObjectFilterPipe implements PipeTransform {
   transform(items: any[], searchText: string, filters: string[]): any[] {
     if (!items) return [];
     if (!searchText) return items;
