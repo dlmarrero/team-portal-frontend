@@ -13,9 +13,9 @@
       <div class="card" style="height:90vh;overflow-y:scroll;">
         <div class="container">
           <div class='card-block'>
-            <!-- <ui-view> -->
-            <app-your-projects></app-your-projects>
-            <!-- </ui-view> -->
+            <router-outlet>
+              <app-your-projects *ngIf="!currentRoute?.includes('/details')"></app-your-projects>
+            </router-outlet>
           </div>
         </div>
       </div>
