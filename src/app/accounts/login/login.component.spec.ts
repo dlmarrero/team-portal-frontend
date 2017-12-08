@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from "@angular/forms";
 import { LoginComponent } from 'app/accounts/login/login.component';
+import { MessageComponent } from 'app/core/components/message.component';
+import { MessageService } from 'app/core/services/message.service';
+import { AuthService } from 'app/core/services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginComponent', () => {
     let component: LoginComponent;
@@ -8,7 +13,9 @@ describe('LoginComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [LoginComponent]
+            imports: [FormsModule, HttpClientModule, RouterTestingModule],
+            declarations: [LoginComponent, MessageComponent],
+            providers: [MessageService, AuthService]
         })
             .compileComponents();
     }));
