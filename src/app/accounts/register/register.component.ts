@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
   accountFormGroup: FormGroup;
   recallFormGroup: FormGroup;
   adminFormGroup: FormGroup;
-  passChecker:boolean = true;
+  passChecker: boolean = true;
 
   constructor(private _formBuilder: FormBuilder,
     private AuthService: AuthService,
@@ -42,31 +42,31 @@ export class RegisterComponent implements OnInit {
 
   createForms() {
     this.accountFormGroup = this._formBuilder.group({
-      rate: ['', 
-      [Validators.required, 
-        Validators.pattern("(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$")]],
+      rate: ['',
+        [Validators.required,
+        Validators.pattern(/(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$|^LCDR$/i)]],
       rank: ['', Validators.required],
-      fname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
-      lname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
+      fname: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,}$/)]],
+      lname: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,}$/)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', 
-        [Validators.required, 
-        PasswordValidators.cannotContainSpace, 
-        PasswordValidators.passwordComplexity, 
+      password: ['',
+        [Validators.required,
+        PasswordValidators.cannotContainSpace,
+        PasswordValidators.passwordComplexity,
         Validators.minLength(6),
         PasswordValidators.lowerCharacter,
         PasswordValidators.upperCharacter,
         PasswordValidators.numberCharacter,
-      ]],
+        ]],
       confirmpw: ['', [Validators.required, matchOtherValidator('password')]],
-  });
-    
-    
+    });
+
+
     this.recallFormGroup = this._formBuilder.group({
       street: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zip: ['', [Validators.required,Validators.pattern('^[0-9]{5}$')]],
+      zip: ['', [Validators.required, Validators.pattern('^[0-9]{5}$')]],
       phone: ['', [Validators.required, Validators.pattern("[2-9]([0-9]{9})")]]
     });
 
@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  touchPassword () {
+  touchPassword() {
     var validCheck = this.accountFormGroup.get('password').status;
     if (validCheck === "")
       return true;
@@ -96,7 +96,7 @@ export class RegisterComponent implements OnInit {
     var specChar = ("!`@~#$%^&*()_-\\+=<>?:\"{}|\]{\';,./").split("");
     specChar.forEach(char => {
       (validCheck.split("")).forEach(valch => {
-        if (char === valch){
+        if (char === valch) {
           breakLoop = true;
         }
       });
@@ -110,7 +110,7 @@ export class RegisterComponent implements OnInit {
     var upperChar = ("QWERTYUIOPASDFGHJKLZXCVBNM").split("");
     upperChar.forEach(char => {
       (validCheck.split("")).forEach(valch => {
-        if (char === valch){
+        if (char === valch) {
           breakLoop = true;
         }
       });
@@ -124,7 +124,7 @@ export class RegisterComponent implements OnInit {
     var lowerChar = ("qwertyuiopasdfghjklzxcvbnm").split("");
     lowerChar.forEach(char => {
       (validCheck.split("")).forEach(valch => {
-        if (char === valch){
+        if (char === valch) {
           breakLoop = true;
         }
       });
@@ -138,14 +138,14 @@ export class RegisterComponent implements OnInit {
     var numberChar = ("0123456789").split("");
     numberChar.forEach(char => {
       (validCheck.split("")).forEach(valch => {
-        if (char === valch){
+        if (char === valch) {
           breakLoop = true;
         }
       });
     });
     return breakLoop;
   }
-  
+
   signUp() {
     if (this.recallFormGroup.valid && this.accountFormGroup.valid && this.adminFormGroup.valid) {
       this.AuthService.register(this.registration)

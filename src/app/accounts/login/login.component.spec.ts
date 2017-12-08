@@ -10,7 +10,7 @@ import { RouterLinkStubDirective } from 'testing/router-stubs';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-fdescribe('LoginComponent', () => {
+describe('LoginComponent', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
     let el;
