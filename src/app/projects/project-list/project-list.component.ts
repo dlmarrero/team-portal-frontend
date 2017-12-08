@@ -10,8 +10,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ProjectListComponent implements OnInit {
   
-  @Input() completedProjects: Project[];
-  @Input() incompleteProjects: Project[];
+  @Input() pastProjects: Project[];
+  @Input() currentProjects: Project[];
 
   constructor( private projectsService: ProjectsService) { }
 

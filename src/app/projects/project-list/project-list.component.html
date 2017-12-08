@@ -1,8 +1,4 @@
-<div *ngFor="let project of projects">
-  {{project | json}}
-</div>
-
-
+<!-- TODO:  convert to material tabs -->
 <div class="row">
   <div class="col-lg-6">
     <span style="font-size:1.5vw;font-weight:600">N57 Projects</span>
@@ -16,61 +12,51 @@
 </div>
 <hr>
 <!-- TABS  -->
-<div>
-  <ul class="nav nav-pills nav-justified" role="tablist">
-    <li class="nav-item">
-      <a tab class="nav-link active" data-toggle="tab" href="#current" role="tab">Current Projects&nbsp;&nbsp;
-        <span class="badge-pill badge-info" style="color: white">{{completedProjects.length}}</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a tab class="nav-link" data-toggle="tab" href="#pastProjs" role="tab">Past Projects&nbsp;&nbsp;
-        <!-- TODO:  make this work -->
-        <span class="badge-pill badge-info" style="color:white">{{incompleteProjects.length}}</span>
-      </a>
-    </li>
-  </ul>
-</div>
 <div style="width:100%">
   <input type="search" [(ngModel)]="search" class="form-control" placeholder="Filter projects...">
 </div>
-<div class="tab-content">
-  <!-- CURRENT PROJECTS TAB  -->
-  <div class="tab-pane active" id="current" name="current" role="tabpanel">
-    <!-- TODO:  search filter -->
-    <div *ngFor="let project of completedProjects">
-      <div class="projRow">
-        <div>
-          <span>
-            <strong>{{project.title}}</strong>
-          </span>
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Current Projects&nbsp;
+      <span class="badge-pill badge-info" style="color: white">{{currentProjects.length}}</span>
+    </ng-template>
+    <div class="tab-content">
+      <!-- CURRENT PROJECTS TAB  -->
+      <div class="tab-pane active" id="current" name="current" role="tabpanel">
+        <!-- TODO:  search filter -->
+        <div *ngFor="let project of currentProjects">
+          <div class="projRow">
+            <div>
+              <span>
+                <strong>{{project.title}}</strong>
+              </span>
+            </div>
+            <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+              {{project.description}}
+            </div>
+            <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center">
+              <span class="fade" style="padding-right: 50px;">
+                <i class="fa fa-cogs"></i>&nbsp;
+                <a routerLink="/projects/details/{{project.id}}">Details</a>
+              </span>
+              <span class="fade">
+                <i class="fa fa-users"></i>&nbsp;
+                <span>
+                  <i class="fa fa-caret-right-o"></i>{{project.team}}&nbsp;</span>
+              </span>
+            </div>
+          </div>
         </div>
-        <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-          {{project.description}}
-        </div>
-        <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center">
-          <span class="fade" style="padding-right: 50px;">
-            <i class="fa fa-cogs"></i>&nbsp;
-            <a routerLink="details/{{project.id}}">Details</a>
-          </span>
-          <!-- ADD A VARIABLE IN THE CONTROLLER TO CHECK IF A PROJECT LEAD IS ASSIGNED  -->
-          <!--         NG-IF TO DISPLAY "NONE" NEXT TO TEAM LEAD(S) IF EMPTY            -->
-          <!-- <span class="fade">
-            <i class="fa fa-users"></i>&nbsp;
-            <span>
-              <i class="fa fa-caret-right-o"></i>{{project.team}}&nbsp;</span>
-          </span>
-        </div> -->
-        <!-- <div style="text-align:right;" ng-if="project.categories">
-                                <span class="text-muted"><small><i class="fa fa-tags"></i><span ng-repeat="category in project.categories | split">&nbsp;:&nbsp;{{category}}</small></span>
-                            </div> -->
-      <!-- </div>
+      </div>
     </div>
-  </div> -->
-
-  <!-- PAST PROJECTS  -->
-  <!-- <div class="tab-pane active" id="pastProjs" role="tabpanel">
-    <div ng-repeat="project in projects.incompleteProjs | filter:search | orderBy:'-id'">
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Past Projects&nbsp;
+      <span class="badge-pill badge-info" style="color: white">{{pastProjects.length}}</span>
+    </ng-template>
+    <div *ngFor="let project of pastProjects">
       <div class="projRow">
         <div>
           <span>
@@ -83,24 +69,15 @@
         <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" align="center">
           <span class="fade" style="padding-right: 50px;">
             <i class="fa fa-cogs"></i>&nbsp;
-            <a ui-sref="app.projects.details({ id: project.id })">Details</a>
-          </span> -->
-          <!-- ADD A VARIABLE IN THE CONTROLLER TO CHECK IF A PROJECT LEAD IS ASSIGNED  -->
-          <!--         NG-IF TO DISPLAY "NONE" NEXT TO TEAM LEAD(S) IF EMPTY            -->
-          <!-- <span class="fade">
+            <a routerLink="/projects/details/{{project.id}}">Details</a>
+          </span>
+          <span class="fade">
             <i class="fa fa-users"></i>&nbsp;
             <span>
               <i class="fa fa-caret-right-o"></i>{{project.team}}&nbsp;</span>
           </span>
         </div>
-        <div style="text-align:right;" ng-if="project.categories">
-          <span class="text-muted">
-            <small>
-              <i class="fa fa-tags"></i>
-              <span ng-repeat="category in project.categories | split">&nbsp;:&nbsp;{{category}}</small>
-            </span>
-        </div>
       </div>
     </div>
-  </div>
-</div> -->
+  </mat-tab>
+</mat-tab-group>

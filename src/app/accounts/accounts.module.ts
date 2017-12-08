@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AccountRoutingModule } from 'app/accounts/account-routing.module';
-import { MaterialModule } from "app/material/material.module";
+import { MaterialModule } from "app/core/modules/material.module";
 import { CoreModule } from "app/core/core.module"
 
 import { AuthService } from "app/core/services/auth.service";

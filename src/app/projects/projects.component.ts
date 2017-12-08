@@ -18,15 +18,15 @@ export class ProjectsComponent implements OnInit {
 
   // TODO:  filter projects into completed and not completed.  maybe make separate inputs for child component
   //        may have to create two separate observables if inputs are only passed into directives on creation
-  completedProjects: Project[];
-  incompleteProjects: Project[];
+  pastProjects: Project[];
+  currentProjects: Project[];
   showYourProjs: boolean = true;
   currentRoute: string;
 
   private _projects$ = this.projectsService.projects
     .subscribe((projects: Project[]) => {
-      this.completedProjects = projects.filter(iProject => iProject.complete == false);
-      this.incompleteProjects = projects.filter(iProject => iProject.complete == true);
+      this.pastProjects = projects.filter(iProject => iProject.complete == true);
+      this.currentProjects = projects.filter(iProject => iProject.complete == false);
     })
 
   ngOnInit() {
