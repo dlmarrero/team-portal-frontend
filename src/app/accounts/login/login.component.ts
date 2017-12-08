@@ -18,11 +18,14 @@ export class LoginComponent implements OnInit {
     userName: '',
     password: ''
   }
+  submitted = false;
 
   ngOnInit() {
   }
 
   login(): void {
     this.AuthService.login(this.loginData);
+    // TODO:  set spinner when submitted
+    this.submitted = true;
   };
 }
