@@ -113,7 +113,7 @@ fdescribe('RegisterComponent', () => {
       expect(control.valid).toBeFalsy()
     });
 
-    fit('should mark confirm password valid', () => {
+    it('should mark confirm password valid', () => {
       let control = component.accountFormGroup.controls['confirmpw'];
       component.accountFormGroup.controls['password'].setValue('P@ssw0rd');
       control.setValue('P@ssw0rd')
