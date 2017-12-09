@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { UserDataService } from '@app/core';
+import { UserDataService } from 'app/core/services/user-data.service';
 import { environment } from '@env/environment';
-import { User } from "@app/shared";
+import { User } from "app/shared/types/user";
 
 import { Todo } from "./todo.model";
 

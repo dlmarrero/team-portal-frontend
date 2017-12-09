@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService, MessageService } from '@app/core';
-import { MessageComponent } from '@app/shared';
+import { AuthService } from 'app/core/services/auth.service';
+import { MessageService } from 'app/core/messages/message.service';
+import { MessageComponent } from 'app/shared/components/message.component';
 
 @Component({
   templateUrl: 'login.component.html'

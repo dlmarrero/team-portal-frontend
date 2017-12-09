@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MessageService } from '@app/core';
+import { MessageService } from 'app/core/messages/message.service';
 
 // TODO:  conver this to present toast messages
 

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { CoreModule } from '@app/core'
+import { CoreModule } from './core/core.module'
 
 import { AccountsModule } from "./accounts/accounts.module"; // TODO:  move this to be lazy loaded
 import { AppAsideModule } from './components/app-aside/app-aside.module';

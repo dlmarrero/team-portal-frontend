@@ -3,15 +3,15 @@
 // import { Validator } from 'codelyzer/walkerFactory/walkerFn';
 // import { error } from 'util';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import { AuthService, MessageService } from '@app/core';
-import { } from '@app/shared';
+import { AuthService } from 'app/core/services/auth.service';
+import { MessageService } from 'app/core/messages/message.service';
 
 import { RegistrationData } from "./registration-data.model";
 import { PasswordValidators } from './password.validators';
 import { matchOtherValidator } from './match-other.validator';
 import { HttpErrorResponse } from "@angular/common/http";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-register',
