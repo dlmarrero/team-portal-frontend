@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Poc } from 'app/components/app-aside/pocs/pocs.model';
 import { Observable } from 'rxjs/Observable';
-import { environment } from 'environments/environment';
+
+import { environment } from '@env/environment';
+
+import { Poc } from './pocs.model';
 
 @Injectable()
 export class PocsService {

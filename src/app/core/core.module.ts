@@ -1,23 +1,35 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthGuard } from 'app/guards/auth.guard';
-import { AuthInterceptor } from './services/authinterceptor.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+// TODO: A->B test performance with this in..
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthGuard } from './guards/auth.guard';
+import { AuthInterceptor } from './services/auth-interceptor.service';
 import { AuthService } from "./services/auth.service";
-import { MessageService } from "./services/message.service";
-import { UserDataService } from 'app/core/services/user-data.service';
-import { MessageComponent } from "app/core/components/message.component";
+import { MessageService } from "./messages/message.service";
+import { UserDataService } from './services/user-data.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule,
   ],
-  declarations: [MessageComponent],
+  declarations: [],
   providers: [
     AuthGuard,
+    AuthInterceptor,
+    AuthService,
     MessageService,
     UserDataService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  exports: [MessageComponent]
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }]
 })
-export class CoreModule { }
+export class CoreModule {
+  /* make sure CoreModule is imported only by one NgModule the AppModule */
+  constructor(
+    @Optional() @SkipSelf() parentModule: CoreModule
+  ) {
+    if (parentModule) {
+      throw new Error('CoreModule is already loaded. Import only in AppModule');
+    }
+  }
+}

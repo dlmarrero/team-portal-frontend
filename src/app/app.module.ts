@@ -1,21 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { CoreModule } from '@app/core'
+
 import { AccountsModule } from "./accounts/accounts.module"; // TODO:  move this to be lazy loaded
-import { CoreModule } from './core/core.module';
 import { AppAsideModule } from './components/app-aside/app-aside.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
+// TODO:  remove these when no longer needed
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
-
+// TODO:  move containers and components to own LayoutModule
 // Import containers
 import {
   FullLayoutComponent,
@@ -29,7 +30,7 @@ const APP_CONTAINERS = [
 
 // Import components
 import {
-  AppAsideComponent, 
+  AppAsideComponent,
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -74,7 +75,7 @@ const APP_DIRECTIVES = [
     BrowserModule,
     CoreModule,
     AppRoutingModule,
-    HttpClientModule,
+    CoreModule,
     AppAsideModule,
     AccountsModule,
     BsDropdownModule.forRoot(),
@@ -83,7 +84,7 @@ const APP_DIRECTIVES = [
     BrowserAnimationsModule
   ],
   declarations: [
-    AppAsideComponent, 
+    AppAsideComponent,
     AppComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,

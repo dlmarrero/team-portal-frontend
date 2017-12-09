@@ -1,4 +1,4 @@
-import { Todo } from "app/components/app-aside/todo/todo.model";
+import { Todo } from "../../components/app-aside/todo/todo.model";
 
 export interface User {
     id?: string;

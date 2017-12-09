@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
-import { Todo } from "./todo.model";
+import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { UserDataService } from 'app/core/services/user-data.service';
-import { User } from 'app/core/types/user';
+
+import { UserDataService } from '@app/core';
+import { environment } from '@env/environment';
+import { User } from "@app/shared";
+
+import { Todo } from "./todo.model";
 
 // TODO:  convert form to material
 // TODO:  hover to darker green on add todo button

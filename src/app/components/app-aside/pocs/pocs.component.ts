@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Poc } from './pocs.model';
 import { Observable } from 'rxjs/Observable';
+
 import { PocsService } from './pocs.service';
+import { Poc } from './pocs.model';
 
 @Component({
   selector: 'app-pocs',
@@ -67,7 +68,7 @@ export class PocsComponent implements OnInit {
       }
       else if (p1.office < p2.office) {
         return -1;
-      } else {  
+      } else {
         return 0;
       }
     })

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TodoService } from "./todo.service";
-import { AuthService } from 'app/core/services/auth.service';
-import { UserDataService } from 'app/core/services/user-data.service';
-import { Todo } from 'app/components/app-aside/todo/todo.model';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map'
+import { map } from 'rxjs/Operator/map'
+
+import { AuthService, UserDataService } from '@app/core';
+
+import { Todo } from './todo.model';
+import { TodoService } from "./todo.service";
 
 @Component({
   selector: 'app-todo',
@@ -60,7 +61,7 @@ export class TodoComponent implements OnInit {
       }
       else if (t1.dueDate < t2.dueDate) {
         return -1;
-      } else {  
+      } else {
         // Dates match, compare times
         if (t1.time > t2.time) {
           return 1;

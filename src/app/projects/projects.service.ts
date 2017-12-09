@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { environment } from '@env/environment';
+
 import { Project } from './models';
 
 const apiUrl = environment.apiUrl + '/api/projects';
@@ -25,7 +27,8 @@ export class ProjectsService {
     let projects: Project[] = this._projects.getValue();
     obs.subscribe(project => {
       projects.push(project);
-      this._projects.next(projects)});
+      this._projects.next(projects)
+    });
     return obs;
   }
 

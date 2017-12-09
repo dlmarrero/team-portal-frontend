@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { TodoService } from "app/components/app-aside/todo/todo.service";
-import { FormsModule } from '@angular/forms';
+
+import { SharedModule } from "@app/shared";
+
+import { TodoService } from './todo/todo.service';
 import { TodoComponent } from "./todo/todo.component";
 import { PocsComponent } from './pocs/pocs.component';
 import { PocsService } from './pocs/pocs.service';
-import { ObjectFilterPipe } from 'app/core/pipes/object-filter.pipe';
 
 
 @NgModule({
   imports: [
-    CommonModule,
     TabsModule,
-    FormsModule
+    SharedModule,
   ],
-  declarations: [ TodoComponent, PocsComponent, ObjectFilterPipe ],
-  providers: [ TodoService, PocsService ],
-  exports: [ TodoComponent, PocsComponent ]
+  declarations: [TodoComponent, PocsComponent],
+  providers: [TodoService, PocsService],
+  exports: [TodoComponent, PocsComponent]
 })
 export class AppAsideModule { }

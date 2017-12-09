@@ -37,7 +37,6 @@ import {
 } from 'angular-calendar';
 import { CalendarService } from './calendar.service';
 import { CalEvent } from './cal-event.model';
-import { tap } from 'rxjs/operators';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 

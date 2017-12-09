@@ -1,1 +1,3 @@
 TODO:  eventually refactor all material into one material module
+TODO:  import base angular modules i.e. common module into shared module
+TODO:  give messageService a feature module

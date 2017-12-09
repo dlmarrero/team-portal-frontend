@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map } from 'rxjs/operators';
+import { EventColor } from 'calendar-utils';
 
-import { environment } from 'environments/environment';
-import { HttpErrorResponse } from '@angular/common/http/src/response';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { environment } from '@env/environment';
 
 import { CalEvent } from "./cal-event.model";
-import { EventColor } from 'calendar-utils';
 
 
 const colors: any = {

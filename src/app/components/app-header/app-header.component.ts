@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'app/core/services/auth.service';
-import { UserDataService } from "app/core/services/user-data.service";
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AuthService, UserDataService } from '@app/core';
 
 @Component({
   selector: 'app-header',
