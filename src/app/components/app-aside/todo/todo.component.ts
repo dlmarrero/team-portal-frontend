@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/Operator/map'
 
-import { UserDataService } from 'app/core/services/user-data.service';
-import { AuthService } from 'app/core/services/auth.service';
+import { UserDataService, AuthService } from '@app/core';
 
 import { Todo } from './todo.model';
 import { TodoService } from "./todo.service";

@@ -4,14 +4,13 @@
 // import { error } from 'util';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
 
-import { AuthService } from 'app/core/services/auth.service';
-import { MessageService } from 'app/core/messages/message.service';
+import { AuthService, MessageService } from '@app/core';
 
 import { RegistrationData } from "./registration-data.model";
 import { PasswordValidators } from './password.validators';
 import { matchOtherValidator } from './match-other.validator';
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
