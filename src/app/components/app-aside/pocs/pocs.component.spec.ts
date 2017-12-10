@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PocsComponent } from './pocs.component';
+import { FormsModule } from '@angular/forms';
+import { ObjectFilterPipe } from 'app/core/pipes/object-filter.pipe';
+import { PocsService } from 'app/components/app-aside/pocs/pocs.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PocsComponent', () => {
   let component: PocsComponent;
@@ -8,9 +13,11 @@ describe('PocsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PocsComponent ]
+      imports: [FormsModule, HttpClientModule, HttpClientTestingModule],
+      declarations: [PocsComponent, ObjectFilterPipe],
+      providers: [PocsService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

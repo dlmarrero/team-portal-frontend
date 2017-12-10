@@ -16,8 +16,11 @@ export class LoginComponent {
     userName: '',
     password: ''
   }
+  submitted = false;
 
   login(): void {
     this.authService.login(this.loginData);
+    // TODO:  set spinner when submitted
+    this.submitted = true;
   };
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map'
 
 import { PocsService } from './pocs.service';
 import { Poc } from './pocs.model';

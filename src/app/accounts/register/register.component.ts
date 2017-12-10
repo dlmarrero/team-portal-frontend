@@ -43,10 +43,10 @@ export class RegisterComponent implements OnInit {
     this.accountFormGroup = this._formBuilder.group({
       rate: ['',
         [Validators.required,
-        Validators.pattern("(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$")]],
+        Validators.pattern(/(^[A-Z]{2,3}(SN|SA|SR|[123]|C|CS|CM)$)|^ENS$|^LTJG$|^LT$|^LCDR$/i)]],
       rank: ['', Validators.required],
-      fname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
-      lname: ['', [Validators.required, Validators.pattern('[a-z,A-Z]*')]],
+      fname: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,}$/)]],
+      lname: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2,}$/)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['',
         [Validators.required,
