@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { TodoComponent } from './todo.component';
-import { FormsModule } from '@angular/forms';
-import { TodoService } from 'app/components/app-aside/todo/todo.service';
-import { HttpClientModule } from '@angular/common/http';
-import { UserDataService } from 'app/core/services/user-data.service';
-import { AuthService } from 'app/core/services/auth.service';
-import { MessageService } from 'app/core/services/message.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { AuthService, UserDataService, MessageService } from '@app/core';
+
+import { TodoService } from './todo.service';
+import { TodoComponent } from './todo.component';
 
 describe('TodoComponent', () => {
   let component: TodoComponent;

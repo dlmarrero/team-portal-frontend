@@ -1,25 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RegisterComponent } from './register.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'app/core/services/message.service';
-import { MessageComponent } from 'app/core/components/message.component';
-import { AuthService } from 'app/core/services/auth.service';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from 'app/material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('RegisterComponent', () => {
+import { AuthService, MessageService } from '@app/core';
+import { SharedModule } from '@app/shared';
+
+import { RegisterComponent } from './register.component';
+
+describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule,
-        HttpClientModule, RouterTestingModule, FormsModule, ReactiveFormsModule,
-        BrowserAnimationsModule],
-      declarations: [RegisterComponent, MessageComponent],
+      imports: [
+        SharedModule,
+        HttpClientModule,
+        RouterTestingModule,
+        BrowserAnimationsModule
+      ],
+      declarations: [RegisterComponent],
       providers: [MessageService, AuthService]
     })
       .compileComponents();

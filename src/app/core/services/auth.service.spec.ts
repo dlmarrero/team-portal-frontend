@@ -1,9 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+
+import { MessageService } from '@app/core';
 
 import { AuthService } from './auth.service';
-import { HttpClientModule } from '@angular/common/http';
-import { MessageService } from 'app/core/services/message.service';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AuthService', () => {
   beforeEach(() => {

@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+
+import { MessageService, AuthService } from '@app/core';
 
 import { MessageComponent } from './message.component';
-import { MessageService } from 'app/core/services/message.service';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from 'app/core/services/auth.service';
 
 describe('MessageComponent', () => {
   let component: MessageComponent;

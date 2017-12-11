@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { SharedModule } from '@app/shared'
+
 import { Project } from '../models'
 import { ProjectsService } from '../projects.service';
 
