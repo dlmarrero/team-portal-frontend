@@ -4,7 +4,7 @@
       <div class="card" style="height:90vh;overflow-y:scroll;">
         <div class="container">
           <div class='card-block'>
-            <app-project-list [pastProjects]="pastProjects" [currentProjects]="currentProjects"></app-project-list>
+            <app-project-list [pastProjects]="pastProjects$ | async" [currentProjects]="currentProjects$ | async"></app-project-list>
           </div>
         </div>
       </div>

@@ -1,3 +1,366 @@
-<p>
-  project-details works!
-</p>
+<div>
+  <h4>Project Details</h4>
+  <hr>
+</div>
+<div class="card" *ngIf="project">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-lg-10">
+        <span [hidden]="editTitle" style="font-size:24px;font-weight:500">{{project.title}}&nbsp;</span>
+        <a [hidden]="editTitle" [routerLink]="" (click)="editTitle=true">Edit</a>
+        <input type="text" [(ngModel)]="project.title" name="title" [hidden]="!editTitle" style="font-size: 20px;">
+        <a [hidden]="!editTitle" [routerLink]="" (click)="updateProject()">Save</a>
+      </div>
+      <div class="col-lg-2" style="text-align:right">
+        <div>
+          <span>Complete</span>
+          <br>
+          <div style="padding-right: 20px">
+            <label class='form-control-label' for='complete'>
+              <a [routerLink]="" *ngIf="!project.complete" (click)="projectComplete(true)">
+                <i class="fa fa-square-o fa-2x"></i>
+              </a>
+              <a [routerLink]="" *ngIf="project.complete" (click)="projectComplete(false)">
+                <i class="fa fa-check-square-o fa-2x"></i>
+              </a>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-block">
+    <div class="row">
+      <div class="col-lg-8 bordered">
+        <strong>Description:</strong>
+        <span class="float-right">
+          <a [routerLink]="" [hidden]="editDescription" (click)="editDescription = true">Edit</a>
+          <a [routerLink]="" [hidden]="!editDescription" (click)="updateProject()">Save</a>
+        </span>
+        <br>
+        <p [hidden]="editDescription" style="white-space: pre-wrap;">{{project.description}}</p>
+        <textarea style="width:100%;height:180px;" [(ngModel)]="project.description" name="description" value="project.description"
+          [hidden]="!editDescription"></textarea>
+        <br>
+      </div>
+      <div class="col-lg-4 bordered">
+        <strong>Assigned Team:&nbsp;</strong>
+        <span class="float-right">
+          <a [routerLink]="" [hidden]="editTeam" (click)="editTeam = true">Edit</a>
+          <a [routerLink]="" [hidden]="editTeam" (click)="editTeam = false">Done</a>
+        </span>
+        <!-- Add Team Member  -->
+        <div class="input-group" *ngIf="editTeam">
+          <select [(ngModel)]="project.team" (change)="updateProject()">
+            <option *ngFor="let team of teams" value="{{team}}">{{team}}</option>
+          </select>
+        </div>
+        <!-- Display Team Members  -->
+        <div *ngIf="!editTeam">
+          <!-- <p *ngIf="teamFeedback" style="color:rgb(2, 114, 2)">{{teamFeedback}}</p> -->
+          {{project.team}}
+          <p *ngIf="!project.team">No team assigned</p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <!-- Resources  -->
+    <div class="row">
+      <div class="col-lg-12 bordered" style="min-height:100px">
+        <strong>Resources:</strong>
+        <span class="float-right">
+          <a [routerLink]="" [hidden]="editResources" (click)="editResources = true">Edit</a>
+          <a [routerLink]="" [hidden]="!editResources" (click)="editResources = false">Done</a>
+        </span>
+        <small>
+          <a [routerLink]="" data-toggle="modal" data-target="#newLinkModal">Add</a>
+        </small>
+        <button type='button' class='btn btn-primary' data-toggle="modal" data-target="#newLinkModal">Add Link</button>
+        <ul *ngFor="let link of project.links">
+          <li>
+            <a routerLink="{{link.url}}" target="blank">{{link.title}}</a>
+            <a [routerLink]="" *ngIf="editResources" (click)="deleteLink(link.id)">
+              <i class="fa fa-trash-o" style="color:red"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <br>
+    <!-- Tasks  -->
+    <div class="row">
+      <div class="col-lg-12 bordered">
+        <div class="row">
+          <div class="col-lg-8">
+            <strong>Tasks:</strong>
+            <br>
+            <br>
+            <div *ngFor="let task of project.workItems">
+              <a [routerLink]="" *ngIf="!task.complete" (click)="taskComplete(task, true)">
+                <i class="fa fa-square-o"></i>
+              </a>
+              <a [routerLink]="" *ngIf="task.complete" (click)="taskComplete(task, false)">
+                <i class="fa fa-check-square-o"></i>
+              </a>&nbsp;{{task.title}}
+              <a [routerLink]="" (click)="showDetails=true" [hidden]="showDetails">
+                <small>More</small>
+              </a>
+              <a [routerLink]="" (click)="showDetails=false" *ngIf="showDetails">
+                <small>Less</small>
+              </a>
+              <!-- Task Details  -->
+              <div class="details-slide" style="overflow:auto" *ngIf="showDetails" [ngClass]="task.priority == 'high' ? 'callout callout-danger' : 'callout callout-success'">
+                <strong>Description:</strong>
+                <br>{{task.description}}
+                <hr>
+                <strong>Assigned To:</strong>
+                <small>
+                  <a [routerLink]="" *ngIf="!editAssignment" (click)="editAssignment=true">Edit</a>
+                </small>
+                <small>
+                  <a [routerLink]="" *ngIf="editAssignment" (click)="editAssignment=false">Done</a>
+                </small>
+                <br>
+                <form name="assignForm" autocomplete="off" *ngIf="editAssignment">
+                  <div class="input-group">
+                    <!-- TODO:  find a new typeahead -->
+                    <!-- <input type="text" id="assign" [(ngModel)]="taskedUser" uib-typeahead="user as user.rateName for user in teamMembers | filter:$viewValue"
+                      class="form-control" ng-value="taskedUser.rateName"> -->
+                    <span class="input-group-btn">
+                      <!-- TODO:  make sense of this -->
+                      <!-- <button type="submit" *ngIf="editAssignment" class="btn btn-info" (click)="a(taskedUser, task); taskedUser=null;">Add</button> -->
+                    </span>
+                  </div>
+                </form>
+                <div *ngFor="let tm of task.assignedUsers">
+                  <span *ngIf="editTeamMember">
+                    <a [routerLink]="" (click)="deleteTeamMember(tm.id)">
+                      <i class="fa fa-close"></i>
+                    </a>
+                  </span>&nbsp;{{tm.rateName}}
+                  <a [routerLink]="" *ngIf="editAssignment" (click)="deleteTaskAssignment(tm, task)">
+                    <i class="fa fa-trash-o" style="color:red"></i>
+                  </a>
+                </div>
+                <span *ngIf="!task.assignedUsers.length">No one is assigned to this task
+                  <br>
+                </span>
+                <hr>
+                <strong>Comments ({{task.comments.length || 0}}):</strong>
+                <small>
+                  <a [routerLink]="" data-toggle="modal" data-target="#newCommentModal" (click)="newComment.workItemId = task.id">Add</a>
+                </small>
+                <br>
+                <!-- TODO:  sort by date -->
+                <ul *ngFor="let comment of task.comments" style="padding-left:20px">
+                  <li>
+                    <small>
+                      <strong>
+                        {{comment.author}}:&nbsp;
+                        <span *ngIf="comment?.stuck" style="color:red">STUCK!</span>
+                        <a [routerLink]="" *ngIf="comment?.author == curUser.rateName" (click)="deleteComment(comment)">
+                          <i class="fa fa-trash-o" style="color:red"></i>
+                        </a>
+                      </strong>
+                    </small>
+                    <p>
+                      {{comment.body}}
+                      <br>
+                      <small>
+                        <em>{{comment.created | date:'ddMMMyy @ HHmm'}}</em>
+                      </small>
+                    </p>
+                  </li>
+                </ul>
+                <button *ngIf="!showConfirmDeleteTask" class="btn btn-danger btn-sm" style="float:right" (click)="showConfirmDeleteTask=true">Delete Task</button>
+                <div style="float:right" *ngIf="showConfirmDeleteTask">
+                  <strong>
+                    <em>Are you sure you want to delete this task?&nbsp;</em>
+                  </strong>
+                  <button class="btn btn-danger btn-sm" (click)="deleteTask(task); showConfirmDeleteTask=false">Yes</button>
+                  <button class="btn btn-success btn-sm" (click)="showConfirmDeleteTask=false">No</button>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+          <div class="col-lg-4" style="text-align: center;line-height:100%">
+            <!-- TODO:  loadfade is probably not an actual class -->
+            <div class="col-lg-12 loadfade" style="max-height:230px;font-size:14px;padding-bottom:5px">
+              <strong>
+                <!-- TODO:  make this vars in component -->
+                {{complete}}/{{complete+incomplete}}
+                <br> TASKS COMPLETED
+              </strong>
+            </div>
+            <!-- TODO:  port over chart.js chart -->
+            <!-- <div class="col-lg-12" style="text-align:center">
+              <canvas id="doughnut" class="chart chart-doughnut" chart-data="chart" chart-labels="labels"></canvas>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer  -->
+  <div class="card-footer">
+    <div class="row">
+      <div class="col-lg-6">
+        <button type='button' style="width:120px" class='btn btn-success' data-toggle="modal" data-target="#newTaskModal">Add Tasks</button>
+      </div>
+      <div class="col-lg-6" style="text-align:right;" align="right">
+        <button *ngIf="!showConfirmDeleteProject" class="btn btn-danger" style="float:right" (click)="showConfirmDeleteProject=true">Delete Project</button>
+        <div style="float:right" *ngIf="showConfirmDeleteProject">
+          <strong>
+            <em>Are you sure you want to delete this project&nbsp;</em>
+          </strong>
+          <button class="btn btn-danger" (click)="deleteProject(); showConfirmDeleteProject=false">Yes</button>
+          <button class="btn btn-success" (click)="showConfirmDeleteProject=false">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals  -->
+
+<!-- New Task Modal -->
+<div id="newTaskModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add a Task</h5>
+        <button type="button" class="close float-right" data-dismiss="modal">
+          <i class="fa fa-remove"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <!-- TODO:  use formgroups here due to child form -->
+        <!-- FORM  -->
+        <form name="newTaskForm">
+          <label for="title" class="form-label" style="float:left">Title:</label>
+          <!-- TODO: fix -->
+          <!-- <input type="text" id="title" class="form-control" [(ngModel)]="newTask.title" name="newTitle" required> -->
+          <hr>
+          <label for="description" class="form-label" style="float:left">Description:</label>
+          <!-- TODO: fix -->
+          <!-- <textarea id="description" class="form-control" [(ngModel)]="newTask.description" name="newDescription" required></textarea> -->
+          <hr>
+          <form name="assignForm">
+            <label for="assign" class="form-label" style="float:left">Assign To:</label>
+            <div class="input-group">
+              <!-- TODO:  new typeahead needed -->
+              <!-- <input type="text" id="assign" [(ngModel)]="taskedUser" uib-typeahead="user as user.rateName for user in teamMembers | filter:$viewValue"
+                class="form-control" ng-value="taskedUser.rateName" autocomplete="off"> -->
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-info" (click)="assignTask(taskedUser); taskedUser=null">Add</button>
+              </span>
+            </div>
+          </form>
+          <!-- </form> -->
+          <!-- Display Selected Users  -->
+          <div *ngFor="let user of assignedUsers" style="text-align:left">
+            <a [routerLink]="" (click)="unassignTask(user)">
+              <i class="fa fa-close"></i>
+            </a> &nbsp;{{user.rateName}}
+          </div>
+          <hr>
+          <!-- TODO: fix -->
+          <div style="text-align:left">
+            <label for="priority" class="form-label">Priority: </label>
+            <!-- <input type="radio" name="high" value="high" [(ngModel)]="newTask.priority" name="priHi"> -->
+            <label for="high" class="form-label">High</label>
+            <!-- <input type="radio" name="normal" value="normal" [(ngModel)]="newTask.priority" name="priLo"> -->
+            <label for="normal" class="form-label" selected>Normal</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span style="color:rgb(1, 126, 1);position:absolute;left:10px">{{newTaskFeedback}}</span>
+        <button type="button" class="btn btn-primary" (click)="saveTask()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Comment Modal  -->
+<div id="newCommentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Post a Comment</h5>
+        <button type="button" class="close float-right" data-dismiss="modal">
+          <i class="fa fa-remove"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <!-- FORM  -->
+        <form name="newCommentForm">
+          <label class='form-control-label float-right' for='stuck'>Stuck?&nbsp;&nbsp;
+            <!-- TODO: fix -->
+            <!-- <input type='checkbox' id='stuck' [(ngModel)]='newComment.stuck' title="comStuck"> -->
+          </label>
+
+          <label for="comment" class="form-label" style="float:left">Comment:</label>
+          <!-- TODO: fix -->
+          <!-- <textarea id="comment" class="form-control" [(ngModel)]="newComment.body" title="comBody" required></textarea> -->
+          <hr>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveComment(task)">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Resource Modal  -->
+<div id="newLinkModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add a Resource</h5>
+        <button type="button" class="close float-right" data-dismiss="modal">
+          <i class="fa fa-remove"></i>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <!-- FORM  -->
+        <form name="newLinkForm">
+          <label for="title" class="form-label" style="float:left">Title:</label>
+          <!-- TODO: fix -->
+          <!-- <input type="text" id="comment" class="form-control" [(ngModel)]="newLink.title" name="linkTitle"> -->
+          <hr>
+          <label for="url" class="form-label" style="float:left">URL:</label>
+          <!-- TODO: fix -->
+          <!-- <input type="text" id="url" class="form-control" [(ngModel)]="newLink.url" name="linkUrl"> -->
+          <!-- <hr>
+                  <label for="fileupload" class="form-label" style="float:left">Upload a File:&nbsp;
+                      <button ngf-select="uploadFiles($files, $invalidFiles)" multiple ngf-max-size="10MB">
+                          Select Files
+                      </button>
+                  </label>
+                  <ul *ngIf="files.length">
+                      <li *ngFor="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}}
+                          <span class="progress" *ngIf="f.progress >= 0">
+                              <div style="width:{{f.progress}}%" ng-bind="f.progress + '%'"></div>
+                          </span>
+                      </li>
+                      <li *ngFor="f in errFiles" style="font:smaller">
+                          {{f.name}} {{f.$error}} {{f.$errorParam}}
+                      </li>
+                  </ul> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="saveResource()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

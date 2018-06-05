@@ -14,11 +14,28 @@ export class ProjectsService {
   private _projects: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([])
   public projects: Observable<Project[]> = this._projects.asObservable()
 
-  constructor(private http: HttpClient) { this.getProjects() }
+  private _pastProjects: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
+  public pastProjects: Observable<Project[]> = this._pastProjects.asObservable();
+
+  private _currentProjects: BehaviorSubject<Project[]> = new BehaviorSubject<Project[]>([]);
+  public currentProjects: Observable<Project[]> = this._currentProjects.asObservable();
+
+
+  constructor(private http: HttpClient) {
+    this.getProjects();
+    this.projects.subscribe((projects: Project[]) => {
+      this._pastProjects.next(projects.filter(iProject => iProject.complete == true))
+      this._currentProjects.next(projects.filter(iProject => iProject.complete == false))
+      // console.log(this._pastProjects.getValue())
+    });
+  }
+
 
   getProjects(): Observable<Project[]> {
     let obs = this.http.get<Project[]>(apiUrl)
-    obs.subscribe(projects => this._projects.next(projects));
+    obs.subscribe(projects => {
+      this._projects.next(projects)
+    });
     return obs;
   }
 
